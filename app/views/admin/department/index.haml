@@ -1,0 +1,25 @@
+.container-fluid
+  .row
+    .col-md-1
+    .col-md-10
+      .row
+        .pull-right
+          %br
+          %p
+            = link_to new_admin_department_path, class:'btn btn-success' do
+              Добавить отдел
+
+            = link_to new_admin_employee_path, class: 'btn btn-primary', title: 'Добавить сотрудника' do
+              Добавить сотрудника
+        %br
+          %br
+        .well{style: "color:black"}
+          %i
+            .path
+              Панель администратора > О нас > Отделы МИАЦ
+          %br
+          #t{style: 'padding: 2em;'}=render 'departments'
+
+
+
+

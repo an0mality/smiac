@@ -1,0 +1,123 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+
+ *= require_tree .
+ *= require_self
+ *= require jquery-ui
+ *= require redactor-rails
+ *= redactor-rails/plugins
+ *= require jquery.bvi
+ *= require jquery.minicolors
+ *= require bootstrap-datepicker
+ 
+
+*/
+/*html,
+body {
+  height: 100%;
+}
+
+.wrapper{
+	 min-height: 100%;	
+}
+
+.content{
+	 padding-bottom: 10px;
+}
+
+
+.foot{
+	margin-top: -10px;
+  
+  height: 10px;
+}*/
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+  /*border: 1px solid red;*/
+  //background-color: #d0d8e5;
+  background-color: #d3e5ff;
+
+}
+
+/**,
+*:before,
+*:after {
+  box-sizing: inherit;
+}*/
+
+body {
+  padding:0; margin:0 auto;
+  width:90%;
+  margin-top: 1em;
+
+  //border: 1px solid blue;
+  background-color: ghostwhite;
+  //background-color: #9eb9e5;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
+  /*position: relative;
+  margin: 0;
+  padding-bottom: 26rem;
+  min-height: 100%;
+  background-color: #abacad;
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+    -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);*/
+    
+   
+}
+
+.content{
+  min-height: 100%;
+}
+.wrapper{
+  padding: 20px;
+  padding-bottom: 50px;
+}
+
+.footer {
+  height: 50px;
+  //margin-top: -50px;
+  //background-color: #428bca;
+}
+
+/**
+ * Footer Styles
+ */
+
+/*.foot {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  /*padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
+}
+*/
+ 
+#scrollUp{
+  right:1em;
+  //bottom:4em;
+  position: fixed;
+  padding-top: 1em;
+  cursor: pointer;
+  z-index: 2;
+  width: 30px;
+  display: none;
+}

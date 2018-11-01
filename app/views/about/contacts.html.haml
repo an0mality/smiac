@@ -1,0 +1,41 @@
+- title 'Контакты МИАЦ Калужской области'
+- meta_tag :description, 'Время работы и адрес медицинского информационно-аналитического центра Калужской области'
+- meta_tag :keywords, 'режим работы, перерыв на обед, адрес, как проехать, МИАЦ Калуга'
+.container-fluid
+  .row
+    .col-md-1
+    .col-md-10
+      .panel.panel-info{style:"font-size: 14px;"}
+        .panel-heading
+          .row
+            .col-md-10
+              %i
+                .path
+                  О нас > Контактная информация
+            .col-md-2
+              .pull-right=render 'shared/social_share'
+        .panel-body
+          .col-md-6
+            .row
+              %u.text-info{style:"font-size: 18px;"} Режим работы
+              %P
+              %span Понедельник-Пятница:
+              8:30 - 17:30
+              %p
+              %span Перерыв:
+              13:00 - 14:00
+            %br
+            .row
+              %u.text-info{style:"font-size: 18px;"} Адрес
+              %p Калужская область г. Калуга, мкр-н Аненки ул. Вишневского д.1 5 корп. Цокольный этаж. Территория Калужской областной больницы.
+            %br
+            .row
+              %u.text-info{style:"font-size: 18px;"} Как добраться
+              %p Проезд маршрутными такси №22, №32 и №31 до конечной остановки.
+
+
+          .col-md-6
+            %u.text-info{style:"font-size: 18px;"} Мы на карте
+            #map.map{:style => "position: relative; overflow: hidden; transform: translateZ(0px); background-color: rgb(229, 227, 223);"}
+              -#%iframe{:frameborder => "0", :height => "450", :src => "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4629.720514914088!2d36.18125657753847!3d54.53595926101571!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTTCsDMyJzEyLjEiTiAzNsKwMTEnMDEuMyJF!5e0!3m2!1sru!2sru!4v1433321301675", :style => "border:0", :width => "600"}
+              %script{:charset => "utf-8", :src => "https://api-maps.yandex.ru/services/constructor/1.0/js/?sid=cGG3DjSVadbQuzfTgHvLps9idyP6HRM3&width=550&height=400", :type => "text/javascript"}

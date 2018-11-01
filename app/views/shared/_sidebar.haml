@@ -1,0 +1,36 @@
+- if request.path == classroom_index_path || request.path == show_video_list_classroom_index_path
+
+  - if params[:act] == 'video'
+    - if user_signed_in? and current_user.admin?
+      = link_to "Обновить список", update_video_list_classroom_index_path
+    - if @channel.present?
+      %ul.nav.navbar-nav
+        %li
+          %a.tooltips{"data-original-title" => "Youtube", "data-placement" => "top", "data-toggle" => "tooltip", :href => "https://www.youtube.com/channel/UCGZD4qjOnUS6NP9i5KNQ0hA", :title => "Ссылка на наш канал в Youtube", :target => :blank}
+            -#%i.fa.fa-youtube
+            = image_tag('youtube.png', style: "width: 120px;")
+
+        - @channel.each do |rec|
+          %li{class: ( params[:id].to_i==rec.id.to_i ?  "acti" : "")}
+            = link_to rec.title, show_video_list_classroom_index_path(id: rec.id, act: 'video')
+          %br
+
+- if request.path == documents_path
+  - if DocumentStage.all.present?
+    %ul.nav.navbar-nav
+      %li
+        = image_tag('documents.png', style: "width: 60px;")
+
+        - DocumentStage.where("parent_id is null").order(:name).each do |doc_stage|
+          %li
+            %strong
+              = doc_stage.name
+          - DocumentStage.where(parent_id: doc_stage.id).each do |doc_parent|
+            %li.paren{class: ( params[:document_id].to_i==doc_parent.id.to_i ?  "acti" : "")}
+              = link_to doc_parent.name, documents_path(document_id: doc_parent.id)
+
+
+
+
+  - else
+    Не добавлено ни одного раздела

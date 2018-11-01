@@ -1,0 +1,16 @@
+=javascript_include_tag 'admin/documents'
+#documentDeletedModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{style: "width: 70%; padding-top: 12%"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title Массовое удаление документов
+      .modal-body
+        %input{type: 'checkbox', id:'checkAll'} Выбрать все
+        #documents=render 'documents'
+        #deleteFile=link_to 'Удалить выбранные файлы', '#', data: {confirm: 'Точно удалить выбранные файлы?'}, class: 'btn btn-sm btn-primary'
+
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button", id: 'closeBtn'} Закрыть
+        -#= f.submit "Создать", :class => "btn btn-primary", :disable_with => "Ждите"

@@ -1,0 +1,59 @@
+-if @article.show
+  - meta_tag :keywords, @article.title
+  .container-fluid
+    .row
+      .col-md-1
+      .col-md-10
+        .panel.panel-info
+          .panel-heading
+            .row
+              .col-md-6
+                .pull-left
+                  %i.fa.fa-calendar
+                  = I18n.l @article.created_at, format: :long
+                  ,
+                  %i.fa-fw.fa.fa-eye{title: 'Просмотров', style:'cursor: pointer'}
+                  =@article.count_views
+
+
+              .col-md-6
+                .pull-right=render 'shared/social_share'
+
+                .pull-right{style: 'padding-right:10px;'}
+                  =link_to new_subscribe_path do
+                    %i.fa.fa-envelope-o
+                    Подписаться
+                
+
+          .panel-body
+            
+
+            .row
+              .col-md-12
+                -if @article.body.present? && @article.article_image.present?
+                  
+                  
+                  =image_tag("#{@article.article_image.name}", style: "float: left; padding: 1em; width: 20%; ")
+                  %h3.text-center= @article.title
+                  = @article.body.html_safe 
+                -elsif @article.body.present? && @article.article_image.blank?
+                  
+                 
+                  =image_tag("miac.png", style: "float: left; padding: 1em; width: 20%;")
+                  %h3.text-center= @article.title
+                  = @article.body.html_safe
+                -else
+                  Описание новости не указано
+                
+
+
+              .row
+                .col-md-12
+                  .pull-right
+                    
+                    = link_to articles_path, class: "btn btn-sm btn-primary" do
+                      %i.fa.fa-arrow-left       
+                      К списку новостей
+
+
+

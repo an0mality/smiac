@@ -1,0 +1,48 @@
+- title 'Телефоны МИАЦ Калужской области'
+- meta_tag :description, 'сотрудники и их контактные телефоны медицинского информационно-аналитического центра Калужской области'
+- meta_tag :keywords, 'сотрудники МИАЦ Калуга, телефон, как связатьсяб телефонная книга, МИАЦ Калуга'
+-phone = Document.phone_sprav
+.container-fluid
+  .row
+    .col-md-2
+    .col-md-8
+      -#=link_to 'Скачать телефонный справочик', "http://10.2.4.1:91/documents/409"
+      .panel.panel-info{style:"font-size: 14px;"}
+        .panel-heading
+          .row
+            .col-md-10
+              %i
+                .path
+                  О нас > Телефонный справочник
+                  -#= link_to "http://10.2.4.1:91/documents/409", title: 'Скачать телефонный справочник' do
+                  -#  %i.fa.fa-phone-square.fa-2x{style: "color: green"}
+                  - if phone.present?
+                    = link_to(image_tag('xls.png', style: "width: 30px;cursor: pointer;", title: 'Скачать телефонный справочник'), phone)
+
+            .col-md-2
+
+              .pull-right
+
+                =render 'shared/social_share'
+
+        .panel-body
+
+          %p
+          - @cabinets.each do |department|
+            -#%tr
+            -#  %td{style:"colspan: 2;"}
+            %strong
+              %i #{department.name} (кабинет № #{department.cabinet_number})
+
+            -#%tr
+            %table.table.table-bordered.table-condensed.table-hover
+              - @phones.where(department_id: department.id).each do |employee|
+                %tr
+                  %td{style: "width: 35%;"}
+                    #{employee.fio}
+                    %span &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                  %td{style: "width: 15%;"}
+                    =employee.phone_number
+                    %p
+      %br
+        %br

@@ -1,0 +1,21 @@
+#documentModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{style: "width: 70%; padding-top: 12%"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title Добавление документа
+      .modal-body
+
+        =form_tag admin_documents_path,  multipart: true, class: "form-horizontal" do
+          %h3 Выбрать файлы
+          =file_field_tag :file, :multiple => true, name: "attachments[]"
+
+          = hidden_field_tag :document_stage_id, @child
+          = hidden_field_tag :user_id, current_user.id
+          %br
+          =submit_tag 'Загрузить файлы', class: "btn btn-primary"
+
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Закрыть
+        -#= f.submit "Создать", :class => "btn btn-primary", :disable_with => "Ждите"

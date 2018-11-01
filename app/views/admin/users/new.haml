@@ -1,0 +1,19 @@
+
+.container-fluid
+  .row
+    .col-md-2
+    .col-md-8
+      .row
+        .panel.panel-info
+          .panel-heading
+            Панель администратора > Пользователи > Добавление
+
+          .panel-body
+            .text-info{style:"font-size: 15px;"}
+            = render 'form', user: User.new, url: admin_users_path, met: 'post', slovo:"Создать"
+
+
+
+
+
+

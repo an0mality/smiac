@@ -1,0 +1,32 @@
+.row-fluid
+  .col-md-5
+    %p.mainTitle.pull-right календарь отчетности
+    %a{:href => calendar_index_path}
+    %img{:alt => "Календарь",:href => calendar_index_path, :src => "/assets/calendar_small.png", :width=> '100%', :height=> '100%'}/
+    %p.footerTitle Для оперативного информирования о сроке сдачи отчета на нашем сайте организована подписка на события календаря за текущие сутки.
+  
+  - if Document.where('lower(filename) like lower(?)', "%#{'специализированная конференция и выставка'}%").present?
+    .col-md-5
+      -link = Document.where('lower(filename) like lower(?)', "%#{'специализированная конференция и выставка'}%").first.id
+      
+      %p.mainTitle.pull-right Независимая оценка качества оказания услуг медицинскими организациями
+      %a{:href => summary_nok_organization_index_path(type: 'amb'), :target=>"blank"}
+        %img{:alt => "НОК", :src => "assets/nok_small.png", :width=> '100%', :height=> '100%'}/
+      %p.footerTitle Специалистами ГБУЗ КО "МИАЦ Калужской области" был произведен расчет параметров по результатам анкетирования в рамках независимой оценки качества оказания услуг медицинскими организациями. Результаты опубликованы на нашем сайте.
+
+      
+.row-fluid
+  .col-md-6
+    %p.mainTitle.pull-right Запись на прием к врачу в электронном виде
+    %a{:href => "http://xn--40-6kcanlw5ddbimco.xn--p1ai/#!/clinics/", :target=>"blank"}
+      %img{:alt => "Переход на Регистратура40", :src => "assets/reg40_small.png", :width=> '100%', :height=> '100%'}/
+    %p.footerTitle Теперь у Вас появилась возможность записаться к врачу с помощью сервиса Регистратура40.рф в удобное для вас время.
+    
+
+  .col-md-6
+    %p.mainTitle.pull-right Качество оказания услуг ЭКО медицинскими организациями в Калужской области
+    %a{:href => eco_index_path, :target=>"blank"}
+      %img{:alt => "Переход к анкете", :src => "assets/eco_small.png", :width=> '100%', :height=> '100%'}/
+    %p.footerTitle Примите участие в независимой оценке качества медицинских услуг по процедуре ЭКО, оказываемых в медицинских организациях Калужской области
+    
+

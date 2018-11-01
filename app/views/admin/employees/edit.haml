@@ -1,0 +1,13 @@
+.container-fluid
+  .row
+    .col-md-2
+    .col-md-8
+      .row
+        .panel.panel-info
+          .panel-heading
+            Панель администратора > О нас > Телефонный справочник > Редактирование
+
+          .panel-body
+            .text-info{style:"font-size: 15px;"}
+            = render 'form', phone: @phone, url: admin_employee_path(@phone), met: 'put', slovo:"Изменить"
+            -#, opt: { :selected => @phone.department_id}

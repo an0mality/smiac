@@ -1,0 +1,14 @@
+.container-fluid
+  .row
+    .col-md-2
+    .col-md-8
+      .row
+        .panel.panel-info
+          .panel-heading
+            Панель администратора > О нас > Отделы > Добавление
+
+          .panel-body
+            .text-info{style:"font-size: 15px;"}
+            = render 'form', department: Department.new, url: admin_department_index_path, met: 'post', slovo:"Добавить"
+            = link_to admin_department_index_path, class: 'btn btn-success ' do
+              < Назад

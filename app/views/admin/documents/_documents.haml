@@ -1,0 +1,6 @@
+-if @documents.present?
+  -@documents.each do |doc|
+    %p
+      %input{type:'checkbox', class: 'deletedCheck', value: doc.id}
+      = I18n. l doc.created_at, format: '%d/%m/%Y'
+      = doc.filename

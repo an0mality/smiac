@@ -1,0 +1,31 @@
+.container-fluid
+  %br
+  .row
+    .col-md-12
+      .pull-right
+        - if request.path ==  admin_documents_path
+          = link_to "Добавить документ в этот раздел", "#", "data-target" => "#documentModal", "data-toggle" => "modal", class: "btn btn-success"
+          = link_to "Массовое удаление документов", "#", "data-target" => "#documentDeletedModal", "data-toggle" => "modal", class: "btn btn-danger"
+  %br
+  -if @left_menu.present?
+    .row
+      .col-md-3
+        %ul.nav.nav-pills.nav-stacked.my-left-menu
+          - @left_menu.each do |document_stage|
+            %li{class: (@document_stage_id.to_i == document_stage.id ? "active_doc" : " ")}
+              - if request.path == admin_documents_path
+                %a{href: admin_documents_path(document_stage_id: document_stage, parent_id: params[:parent_id])} #{document_stage.name}
+
+              - if request.path == documents_path
+                %a{:href => documents_path(document_stage_id: document_stage, parent_id: params[:parent_id])} #{document_stage.name}
+
+
+        - if params[:document_stage_id].present?
+          - current_doc_stage = DocumentStage.find(params[:document_stage_id]).name
+        - else
+          - current_doc_stage = DocumentStage.where(parent_id: params[:parent_id]).present? ? DocumentStage.where(parent_id: params[:parent_id]).order(:name).first.name : []
+      .col-md-9
+        =render 'shared/document_body'
+  -else
+    .col-md-12
+      =render 'shared/document_body'

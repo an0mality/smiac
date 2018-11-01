@@ -1,0 +1,10 @@
+= simple_form_for department, url: url, method: met  do |f|
+  %br
+    =label :name,'Наименование отдела:'
+    =f.text_field :name, class: 'form-control'
+    =label :cabinet_number,'Номер кабинета отдела:'
+    =f.text_field :cabinet_number, class: 'form-control'
+    =label :description,'Описание отдела:'
+    =f.text_area :description, :class => "redactor", :rows => 40, :cols => 120
+
+    = f.submit slovo, class: 'btn btn-primary btn-lg btn-block'

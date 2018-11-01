@@ -1,0 +1,143 @@
+= render 'feedback/modal_new'
+= render 'shared/modal_sign_in'
+= render 'shared/modal_mednet'
+= render 'shared/modal_bars'
+= render 'shared/modal_ftp'
+
+-link = DocumentStage.bezop
+
+%div{style: "display:none;"}=bvi_link_tag
+
+
+#top_logo
+  .row
+    .col-md-3
+      .map{style: 'display: block; top:50%;'}
+        = link_to sitemap_path , class: 'btn', title: 'Карта сайта'do
+          %i.fa.fa-sitemap
+        %span.bvi-panel-open
+          = link_to image_tag('v3.png', style: "width: 100px;", title: 'Версия сайта для слабовидящих'), "#"
+
+    .col-md-6
+      .text-info
+        - if link.present?
+          = link_to image_tag('pdn.png', style: "width: 150px;", title: 'Переход к документам по защите персональных данных'), documents_path(document_stage_id: link.id, parent_id: link.parent_id)
+        = image_tag('mednet_new1.png', style: "width: 150px;cursor: pointer;", title: 'Переход на закрытый медицинский портал MEDNET', "data-target" => "#mednetModal", "data-toggle" => "modal")
+        = image_tag('bars1.png', style: "width: 150px;cursor: pointer;", title: 'Переход в ИАС БАРС', "data-target" => "#barsModal", "data-toggle" => "modal" )
+        
+        = image_tag('ftp2.png', style: "width: 55px;cursor: pointer; ", title: 'Переход на закрытый ftp-ресурс МИАЦ Калужской области', "data-target" => "#ftpModal", "data-toggle" => "modal")
+    .col-md-3
+      .map{style: 'display: block-inline; top:50%;'}
+        
+        = form_tag(global_search_main_index_path, method: "post", class: "form-horizontal") do
+          .input-group
+            %input.form-control{placeholder: 'Поиск по сайту', :type => "text", :name => 'search', :id => 'search'}
+            .input-group-btn
+              %button.btn.btn-default{:type => "submit"}
+                %i.glyphicon.glyphicon-search
+
+    
+        .pull-right
+          - unless user_signed_in?
+            = link_to "#", "data-target" => "#myModal", "data-toggle" => "modal" do
+              %i.fa.fa-sign-in
+            -#%p
+            -#= link_to new_user_registration_path do
+            -#  %i.fa.fa-check-circle
+            -#  Регистрация
+          - else
+            Вы зашли как
+            = current_user.fio
+            = link_to "Выход",destroy_user_session_path, :method => :delete, :data => { :confirm => 'Вы уверены, что хотите выйти из системы?' }
+
+
+          - if current_user && !current_user.blocks && (current_user.admin || current_user.moderator )
+
+            %p
+            = link_to 'Панель администратора', admin_main_index_path
+
+
+
+
+%nav.my_topbar.navbar.navbar-inner
+  #scrollUp.pull-right
+    = image_tag('up2.png',  title: 'Наверх')   
+  
+
+  
+  
+  %button.navbar-toggle{"data-target" => ".navbar-responsive-collapse", "data-toggle" => "collapse", :type => "button"}
+    %span.sr-only Toggle navigation
+    %span.fa.fa-bars
+  .navbar-header
+  
+  .collapse.navbar-collapse.mega-menu.navbar-responsive-collapse
+    .container.top_links
+      
+      %ul.nav.navbar-nav
+        %li=link_to image_tag('MIAC_full_grey.png',  style: "width: 120px;", title: 'На главную', class: 'brand_btn'), root_path        
+        %li{class: (request.path == articles_path) ? "active_doc" : " "}
+          =link_to 'Новости', articles_path
+
+
+        - if DocumentStage.all.present?
+          %li.dropdown.mega-menu-fullwidth
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "javascript:void(0);", class: (params[:parent_id].present?  ? "active_doc" : " ")}
+              Документы
+            %ul.dropdown-menu
+              - DocumentStage.where("parent_id is null").order(:name).each do |doc_stage|
+                %li{class: (params[:parent_id].present? ? "active_drop" : " ")}
+                  %a{href: documents_path(parent_id: doc_stage)} #{doc_stage.name}
+
+
+        %li.dropdown.mega-menu-fullwidth
+          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "javascript:void(0);", class: (request.path == rmi_index_path   ? "active_doc" : " ")}
+            РМИС
+          %ul.dropdown-menu
+            %li
+              %a{:href => rmi_index_path} Часто задаваемые вопросы
+            - rmis = DocumentStage.where('lower(name) like lower (?)', "%рмис%")
+            - if rmis.present?
+              -parent_id=rmis.first.parent_id
+              -document_stage_id=rmis.first.id
+              %li
+                =link_to 'Методические указания', documents_path(parent_id: parent_id, document_stage_id: document_stage_id)
+        - if VideoPlaylist.all.count > 0
+          - param_video = show_video_list_classroom_index_path(id: VideoPlaylist.last.id  )
+          %li{class: (request.path == show_video_list_classroom_index_path  ? "active_doc" : " ")}
+            %a{href: param_video} Видеоматериалы
+
+        - if TypeOrganization.present?
+          %li.dropdown.mega-menu-fullwidth
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "javascript:void(0);", class: (params[:type_organization].present? || request.path == summary_nok_organization_index_path ? "active_doc" : " ")}
+              Учреждения здравоохранения
+            %ul.dropdown-menu
+              - TypeOrganization.order(:id).each do |type|
+                %li
+                  %a{:href => info_organization_index_path(type_organization: type)} #{type.name}
+              %li
+                %a{href: summary_nok_organization_index_path(type: 'amb')} Независимая оценка качества
+
+
+        %li{class: (request.path == about_path ? "active_doc" : " ")}
+          %li.dropdown.mega-menu-fullwidth
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "javascript:void(0);", class: ((request.path == contacts_about_index_path || request.path == phones_about_index_path || request.path == departments_about_index_path || request.path ==tasks_about_index_path || request.path==vacancies_about_index_path) ? "active_doc" : " ")}
+              О нас
+            %ul.dropdown-menu
+              %li
+                %a{:href => tasks_about_index_path} Задачи МИАЦ
+              %li
+                %a{:href => contacts_about_index_path} Контактная информация
+              %li
+                %a{:href => departments_about_index_path} Отделы МИАЦ
+              %li
+                %a{:href => phones_about_index_path} Телефонный справочник
+              %li
+                %a{:href => vacancies_about_index_path} Вакансии
+        -#%li
+          -#= link_to "Обратная связь",'#', "data-target" => "#newModal", "data-toggle" => "modal"
+
+        %li{class: request.path == calendar_index_path ? "active_doc": "" }
+          = link_to "Календарь", calendar_index_path
+
+       

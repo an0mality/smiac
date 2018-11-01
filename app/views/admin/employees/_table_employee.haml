@@ -1,0 +1,12 @@
+%table.table.table-bordered.table-condensed.table-hover
+  - department.employees.each do |employee|
+    %tr
+      %td{style: "width: 35%;"}
+        = link_to edit_admin_employee_path(employee), title: 'Редактирование' do
+          %i.fa.fa-pencil
+        =link_to admin_employee_path(employee), title: 'Удаление', method: :delete, data: {confirm: 'Удалить?'} do
+          %i.fa.fa-trash-o
+        #{employee.fio}
+      %td{style: "width: 15%;"}
+        =employee.phone_number
+        %p

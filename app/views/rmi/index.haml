@@ -1,0 +1,102 @@
+-#= javascript_include_tag 'rmi', async: true
+
+.row-fluid
+  .col-md-12
+    .panel.panel-info{style:"font-size: 14px; margin-top: 2em; "}
+      .panel-heading
+        .row
+          .col-md-10
+            %i
+              .path
+                РМИС > Часто задаваемые вопросы
+          .col-md-2
+            .pull-right=render 'shared/social_share'
+
+      .panel-body{style:"font-size: 14px; margin-top: 2em; "}
+        .col-md-2.col-md-offset-10
+          .form-inline
+            = search_form_for @q , url: rmi_index_path do | f |
+              = f.text_field :question_cont, class: 'form-control', placeholder: "Поиск по разделам"
+              = f.submit 'Найти', class: 'btn btn-sm btn-primary'
+        - if @themes.present? && @answers.present?
+          .row
+            %ul.text-center
+              %h3.text-info Выберите тему вопроса
+              %br
+              - @themes.each do |b|
+
+                %li{href: '#', class: 'themes btn btn-default', theme_data_id: 'theme'+"#{b.id}", style: 'margin-left: 25px;'}
+                  =b.name
+
+
+          .row
+            .col-md-10.col-md-offset-1
+              - @themes.each do |a|
+                %section{:class => 'theme',:id => 'theme'+"#{a.id}", style: 'display: none;'}
+                  - @answers.where(faq_rmis_theme_id: a.id).order(:question).each do |q|
+
+                    %h3{:class => 'question', :data_id => '#answer'+"#{q.id}"}
+                      %i.fa.fa-question-circle
+                        =q.question.html_safe
+                        %span.show_answer{:data_id => '#answer'+"#{q.id}"} показать ответ
+                        %span.hide_answer{style: 'display: none;', :data_id => '#answer'+"#{q.id}"} скрыть ответ
+
+                    %div{:class =>'answer',:id => 'answer'+"#{q.id}", style:'border: ghostwhite solid 0.5px; padding: 15px; border-radius: 20px; background-color: ghostwhite;' }
+                      =q.description.html_safe
+              %br
+                %br
+        - else
+          .row
+            .text-center.text-info Не создано ни одной темы вопросов
+
+:javascript
+  $(document).ready(function(){
+    //document.getElementsByClassName('answer').hide();
+    $('.answer').hide();
+    $('.show_answer').on('click', function(){
+        //$('.answer').hide();
+        var data_id = $(this).attr('data_id');
+        //alert(data_id);
+        //$('.question').css({"border": "", "border-radius": ""});
+        $(this).hide();
+        $(this).next('.hide_answer').show();
+        $(data_id).css('display','block');
+        $(this).closest('.question').css({"border": "cornflowerblue solid 5px", "border-radius": "10px", "padding": "10px"});
+
+
+    });
+
+    $('.hide_answer').on('click', function(){
+        var data_id = $(this).attr('data_id');
+        $(this).prev('.show_answer').show();
+        $(this).hide();
+        $(this).closest('.question').css({"border": ""});
+        $(data_id).css('display','none');
+    });
+
+    $('.theme').hide();
+    //$('.themes').removeClass('btn-primary');
+
+    $('.themes').on('click', function(){
+        $('.answer').hide();
+        $('.question').css({"border": "", "border-radius": "", "padding": ""});
+
+        //alert('click');
+        $('.theme').hide();
+        $('.themes').removeClass('btn-primary');
+        var theme_data_id = $(this).attr('theme_data_id');
+        //alert(theme_data_id);
+        var element = document.getElementById(theme_data_id)
+        $(element).toggle();
+
+        //$(this).removeClass('btn-default');
+        $(this).addClass('btn-primary');
+
+
+    });
+
+
+
+
+
+  });

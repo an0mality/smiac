@@ -1,0 +1,58 @@
+- title 'Вакансии МИАЦ Калужской области'
+- meta_tag :description, 'Список вакансий, выполняемые МИАЦ Калуги'
+- meta_tag :keywords, 'вакансии, требуется сотрудник, работа в МИАЦ Калуга'
+.container-fluid
+  .row
+    .col-md-1
+    .col-md-10
+      .panel.panel-info{style:"font-size: 14px;"}
+        .panel-heading
+          .row
+            .col-md-10
+              %i
+                .path
+                  О нас > Вакансии МИАЦ
+            .col-md-2
+              .pull-right=render 'shared/social_share'
+        .panel-body
+          .text-info{style:"font-size: 15px;"}
+          - if @vacancies.present?
+            - @vacancies.each do |vacancy|
+              %p
+              %i.fa.fa-check
+              %span
+                %strong.text-info{style:"font-size: 22px;"}
+                  =vacancy.name
+              %span
+                .pull-right
+                  Заработная плата:
+                  - if vacancy.pay.present?
+                    =vacancy.pay
+                  - else
+                    не указана
+              - if vacancy.requirements.present?
+                %p
+                %strong Требования:
+                %br
+                %i
+                  = vacancy.requirements.html_safe
+              %br
+              - if vacancy.responsibility.present?
+                %strong Обязанности:
+                %br
+                %i
+                  = vacancy.responsibility.html_safe
+                %br
+                  %br
+              - if vacancy.contacts.present?
+                %strong Контактное лицо:
+                %span #{vacancy.contacts.html_safe}
+                %p
+              %hr
+          - else
+            %h3
+              .text.center.text-info На данный момент нет ни одной актуальной вакансии
+
+
+  %br
+    %br

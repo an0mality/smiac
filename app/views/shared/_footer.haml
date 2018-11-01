@@ -1,0 +1,114 @@
+#banners
+  .row
+    .col-md-12.text-center
+      = link_to image_tag('cl/5_1.png', style: "height: 80px; width: 80px;", alt: "Официальный портал органов власти Калужской области"), "http://www.admoblkaluga.ru/", "data-toggle" => "tooltip", title: "Официальный портал органов власти Калужской области", "target"=>"blank"
+      = link_to image_tag('cl/3.png', style: "width: 80px;", alt: "Калужский областной центр медицинской профилактики"), "http://budzdorov-kaluga.ru/", "data-toggle" => "tooltip", title: "Калужский областной центр медицинской профилактики", "target"=>"blank"
+      = link_to image_tag('cl/tfoms.png', style: "width: 100px;", alt: "Территориальный фонд обязательного медицинского страхования Калужской области"), "http://oms.kaluga.ru/", "data-toggle" => "tooltip", title: "Территориальный фонд обязательного медицинского страхования Калужской области", "target"=>"blank"
+      = link_to image_tag('cl/gos.png', style: "width: 70px;", alt: "Электронное правительство - Госуслуги"), "http://www.gosuslugi.ru/", "data-toggle" => "tooltip", title: "Электронное правительство(gosuslugi.ru)", "target"=>"blank"
+      = link_to image_tag('cl/reg40.png', style: "width: 62px;", alt: "Электронная регистратура"), "http://xn--40-6kcanlw5ddbimco.xn--p1ai/#!/clinics/", "data-toggle" => "tooltip", title: "Электронная регистратура", "target"=>"blank"
+      = link_to image_tag('cl/1231.png', style: "width: 220px;", alt: "Служба технической поддержки ЕГИСЗ.РФ"), "https://egisz.rt-eu.ru/", "data-toggle" => "tooltip", title: "Служба технической поддержки ЕГИСЗ.РФ", "target"=>"blank"
+      = link_to image_tag('cl/7.png', style: "width: 80px;", alt: "ФГБУ «ЦНИИОИЗ» Минздрава России"), "http://mednet.ru/", "data-toggle" => "tooltip", title: "ФГБУ «ЦНИИОИЗ» Минздрава России", "target"=>"blank"
+      = link_to image_tag('cl/5_2.png', style: "width: 80px;", alt: "Официальный портал Министерства здравоохранения Калужской области"), "http://www.admoblkaluga.ru/sub/health/", "data-toggle" => "tooltip", title: "Официальный портал Министерства здравоохранения Калужской области", "target"=>"blank"
+
+      = link_to image_tag('cl/listendoctor.jpg', style: "width: 150px;", alt: "Официальная группа пилотного проекта Минздрава России, созданного для решения проблем качества и комфортности оказания медицинской помощи"), "https://vk.com/poslushaite_doktor", "data-toggle" => "tooltip", title: "Официальная группа пилотного проекта Минздрава России, созданного для решения проблем качества и комфортности оказания медицинской помощи", "target"=>"blank"
+      = link_to image_tag('zimbra.png', style: "width: 80px;", alt: "Zimbra"), "https://post.miac.kaluga.ru/", "data-toggle" => "tooltip", title: "Zimbra", "target"=>"blank"
+  .row
+    .col-md-12.text-center
+      = link_to image_tag('all_info_nok.png', style: "width: 220px;", alt: "Общая информация по медицинским организациям региона"), "https://nok.rosminzdrav.ru/staticogvmedorg/17", "data-toggle" => "tooltip", title: "Общая информация по медицинским организациям региона", "target"=>"blank"
+
+      = link_to image_tag('all_people.png', style: "width: 240px;", alt: "Информация по общественному совету региона"), "https://nok.rosminzdrav.ru/staticogvconcil/17", "data-toggle" => "tooltip", title: "Информация по общественному совету региона", "target"=>"blank"
+
+      = link_to image_tag('nok_all.png', style: "width: 240px;", alt: "Анкета НОК региона"), "https://nok.rosminzdrav.ru/staticogvjustank/17", "data-toggle" => "tooltip", title: "Анкета НОК региона", "target"=>"blank"
+
+
+
+
+
+#copyright  
+  .row
+    .col-md-4
+      
+      %p
+      = link_to contacts_about_index_path,  title: 'Контакты', 'data-toggle' => 'tooltip', 'data-placement' => 'right' do
+        %i.fa.fa-map-marker.fa-lg{style: 'color: #333;'}
+      г. Калуга, ул. Вишневского д.1, корпус 5.
+      %p
+      = link_to phones_about_index_path,  title: 'Телефонный справочник', 'data-toggle' => 'tooltip', 'data-placement' => 'right' do
+        %i.fa.fa-phone.fa-lg{style: 'color: #333;'}
+      8 (4842) 70-50-12
+      %p
+      = mail_to "mail@miac.kaluga.ru",  title: 'Отправить письмо', 'data-toggle' => 'tooltip', 'data-placement' => 'right' do
+        %i.fa.fa-envelope-o.fa-lg{style: 'color: #333;'}
+      mail@miac.kaluga.ru
+    .col-md-4
+      
+      %p
+      = link_to contacts_about_index_path,  title: 'Контакты', 'data-toggle' => 'tooltip', 'data-placement' => 'right' do
+        %i.fa.fa-clock-o.fa-lg{style: 'color: #333;'}
+      Пн-пт 8:30-17:30      
+      %p
+      %i.fa.fa-coffee.fa-lg{style: 'color: #333;'}
+      13:00-14:00
+      %p
+      = link_to sitemap_path , title: 'Карта сайта'do
+        %i.fa.fa-sitemap.fa-lg{style: 'color: #333;'}
+      Карта сайта
+    .col-md-4
+      
+      %p
+      =link_to "https://www.youtube.com/channel/UCGZD4qjOnUS6NP9i5KNQ0hA", title: 'Канал в Youtube', target: :blank do
+        %i.fa.fa-youtube.fa-lg{style: 'color: #333;'}
+      Наш канал на Youtube
+
+      %p
+      =link_to rss_path, target: :blank, :rel => "alternate", :title => "RSS поток", :type => "application/rss+xml" do
+        %i.fa.fa-rss.fa-lg{style: 'color: #333;'}
+      RSS поток  
+
+      %p
+      =link_to new_subscribe_path, title: 'Оформить подписку на новости' do
+        %i.fa.fa-envelope-o.fa-lg{style: 'color: #333;'}
+      Подписка на события сайта
+
+.footer_footer
+  .row-fluid
+    .col-md-12
+      %center
+        %a 2016-2018 © Все права защищены.&nbsp  ГБУЗ КО МИАЦ Калужской области
+        &nbsp
+        &nbsp
+        %a{:href => "https://metrika.yandex.ru/stat/?id=xxxx2&from=informer", :rel => "nofollow", :target => "_blank"}
+          %img{:alt => "Яндекс.Метрика", :src => "https://informer.yandex.ru/informer/xxx2/xxx_pageviews", :style => "width:80px; height:15px; border:0;", :title => "Яндекс.Метрика: данные за сегодня (просмотры)"}/
+          
+        %img{:alt => "", :src => "https://mc.yandex.ru/watch/xxx2", :style => "position:absolute; left:-9999px;"}/
+        %link{:href => "https://metrika.yandex.ru/stat/?id=xxx2&from=informer", :rel => "import"}/
+        
+
+:javascript
+  (function (d, w, c) {
+      (w[c] = w[c] || []).push(function() {
+          try {
+              w.yaCounterxxx = new Ya.Metrika({
+                  id:xxx,
+                  clickmap:true,
+                  trackLinks:true,
+                  accurateTrackBounce:true
+              });
+          } catch(e) { }
+      });
+
+      var n = d.getElementsByTagName("script")[0],
+          s = d.createElement("script"),
+          f = function () { n.parentNode.insertBefore(s, n); };
+      s.type = "text/javascript";
+      s.async = true;
+      s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+      if (w.opera == "[object Opera]") {
+          d.addEventListener("DOMContentLoaded", f, false);
+      } else { f(); }
+  })(document, window, "yandex_metrika_callbacks");
+%noscript
+  %div
+    %img{:alt => "", :src => "https://mc.yandex.ru/watch/xxx", :style => "position:absolute; left:-9999px;"}/
+    / /Yandex.Metrika counter

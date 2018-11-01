@@ -1,0 +1,18 @@
+= simple_form_for vacancy, url: url, method: met  do |f|
+  .modal-body
+    .pull-right
+      =label :actual,'Опубликовать:'
+      =f.check_box :actual
+    %br
+    =label :name,'Должность:'
+    =f.text_field :name, class: 'form-control'
+    =label :pay,'Зарплата:'
+    =f.text_field :pay, class: 'form-control'
+    =label :requirements,'Требования:'
+    = f.text_area :requirements, :class => "redactor", :rows => 40, :cols => 120
+    =label :responsibility,'Обязанности:'
+    = f.text_area :responsibility, :class => "redactor", :rows => 40, :cols => 120
+    =label :contacts,'Контактное лицо:'
+    =f.text_field :contacts, class: 'form-control', placeholder: 'Введите контактное лицо и телефон'
+  .modal-footer
+    = f.submit slovo, class: 'btn btn-primary btn-lg btn-block'

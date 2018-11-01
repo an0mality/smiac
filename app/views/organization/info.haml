@@ -1,0 +1,154 @@
+
+%script{:src => "https://www.gstatic.com/charts/loader.js", :type => "text/javascript"}
+=javascript_include_tag 'organization.js'
+-if @organization.present? && params[:type_organization].present?
+  - org_name = @organization.name
+  - org_address = @organization.address
+  - title @organization.name
+  - meta_tag :description, "Контактная информация для #{@organization.name}"
+  - meta_tag :keywords, "#{@organization.name}, #{TypeOrganization.find(params[:type_organization]).name}"
+
+.container-fluid
+  -if params[:search].blank?
+    .row
+      .col-md-2
+        -#= @organization.name
+        - params[:id].blank? ? params[:id] = @org_first : params[:id] = params[:id]
+        %ul.nav.nav-pills.nav-stacked.my-left-menu
+          -#%li.acti
+            %a
+              %center
+                #{TypeOrganization.find(params[:type_organization]).name}
+          - @left_menu.each do |org|
+            %li{class: (params[:id].to_i == org.id ? "active_doc" : " ")}
+              %a{:href => info_organization_index_path(type_organization: params[:type_organization], id: org.id)} #{org.name}
+        %br
+          %br
+      .col-md-10
+        .row
+          .col-md-9
+            %i
+              .path
+                Организации > #{TypeOrganization.find(params[:type_organization]).name} > #{org_name}
+          .col-md-3
+            .pull-right
+              %form.form-inline
+                .form-group
+                  = form_tag(request.path, method: "get", class: "form-horizontal") do
+                    = text_field_tag :search, params[:search], placeholder: "Поиск по МО", class: "form-control"
+                    = submit_tag 'Найти', class: 'btn btn-sm btn-primary'
+        .panel.panel-info
+          .panel-heading
+            = @organization.full_name
+            .pull-right=render 'shared/social_share'
+          .panel-body
+
+            .row
+              .col-md-12
+                %h4
+                  = image_tag('address.png', style: "width: 30px;", href: '#')
+                  = org_address
+                - if @organization.tel_secretary.present?
+                  %h4
+                    = image_tag('phone.png', style: "width: 30px;", href: '#')
+                    = @organization.tel_secretary
+                - if @organization.web_site.present?
+                  %h4
+                    = image_tag('website.png', style: "width: 30px;", href: '#')
+                    = link_to @organization.web_site,"http://#{@organization.web_site}",  title:'Перейти на сайт МО', style: "left: 0%; bottom: 0px; margin-left: 0px; text-align: center; position: relative;", target: :blank
+                -nok=@organization.result_nok.present? ? @organization.result_nok : nil
+            .row
+              .col-md-12
+                .map_box.text-center{:id => "pmap_#{params[:id]}", style: 'min-width: 250px; height: 400px; max-width: 70%;', :org_id=>params[:id], :org_name=> org_name, :org_address => org_address, :result=>nok.to_json}
+
+            -unless nok.nil? 
+              .row
+                .col-md-12
+                  .nok_box                    
+                    %hr
+                    %h4.text-center Результаты независимой оценки качества (НОК) оказания услуг для "#{org_name}" 
+                    %br 
+                    *Представлены данные за года, в которых проводилось анкетирование. Информация взята с
+                    %span=link_to 'портала министерства здравоохранения Калужской  области', 'http://admoblkaluga.ru/sub/health/KOOPDIN_i_SOVET_ORGAN/Sovet_prava_pacienta/Rezult_NOK/', target: :blank
+                    %span а также с
+                    %span=link_to 'http://bus.gov.ru', 'http://bus.gov.ru', target: :blank 
+                    %br
+                    %br
+                    -unless request.env['HTTP_USER_AGENT'] =~ /[^\(]*[^\)]*[^\t]Firefox\//
+                      .row
+                        -if nok[:amb].present? 
+                          .col-md-6
+                            #chart_amb_main                      
+                            =btn_details
+                            #chart_amb{style: 'display: none;'}
+                        -if nok[:stac].present?
+                          .col-md-6
+                            #chart_stac_main
+                            =btn_details
+                            #chart_stac{style: 'display: none;'}
+                        -if nok[:san].present?
+                          .col-md-6
+                            #chart_san_main
+                            =btn_details
+                            #chart_san{style: 'display: none;'}
+                        -if nok[:ps].present?
+                          .col-md-6
+                            #chart_ps_main
+                            =btn_details
+                            #chart_ps{style: 'display: none;'}
+                    -else
+                      
+                      -if nok[:amb].present? 
+                        .row  
+                          .col-md-4{style: 'padding-left: 5em; padding-right: 5em;'}
+                            = column_chart NokRating.amb.joins(:nok_year).where(organization_id: @organization.id).group('nok_years.year').sum(:result),title: "Амбулатория.Свод. (Макс.возможный балл - 73)", colors: ["#b00", "#666"]
+                          .col-md-8
+                            =render 'table_nok', nok_all: nok[:all_amb], nok: nok[:amb], p2: 24, p3: 15, p5:10
+                      -if nok[:stac].present?
+                        .row
+                          .col-md-4{style: 'padding-left: 5em; padding-right: 5em;'}
+                            = column_chart NokRating.stac.joins(:nok_year).where(organization_id: @organization.id).group('nok_years.year').sum(:result),title: "Стационар.Свод. (Макс.возможный балл - 75)", colors: ["#b00", "#666"]
+                          .col-md-8
+                            =render 'table_nok', nok_all: nok[:all_stac], nok: nok[:stac], p2: 21, p3: 15, p5:15
+
+
+                      -if nok[:san].present?
+                        .row
+                          .col-md-4
+                            = column_chart NokRating.san.joins(:nok_year).where(organization_id: @organization.id).group('nok_years.year').sum(:result),title: "Свод. (Макс.возможный балл - 55)"
+                          .col-md-8
+                            =render 'table_nok', nok_all: nok[:all_san], nok: nok[:san], p2: 21, p3: 5, p5: 5
+
+                      -if nok[:ps].present?
+                        .row
+                          .col-md-4
+                            = column_chart NokRating.ps.joins(:nok_year).where(organization_id: @organization.id).group('nok_years.year').sum(:result),title: "Свод. (Макс.возможный балл - 59)"
+                          .col-md-8
+                            =render 'table_nok', nok_all: nok[:all_ps], nok: nok[:ps], p2: 15, p3: 5, p5: 15
+                            
+              
+
+  - else
+    .row
+      .col-md-12
+        .pull-right
+          %form.form-inline
+            .form-group
+              = form_tag(request.path, method: "post", class: "form-horizontal") do
+                = text_field_tag :search, params[:search], placeholder: "Поиск по МО", class: "form-control"
+              -#= link_to 'Сбросить поиск', info_organizations_path(type_organization: TypeOrganization.order(:name).first.id)
+              = link_to 'Сбросить поиск', info_organization_index_path(type_organization: TypeOrganization.order(:name).first.id)
+    .row
+      .col-md-12
+        %center
+          %h3 Результаты поиска
+        - if @organization.present?
+          .text-info Найдено #{@organization.count} организаций
+          .list-group
+            - @organization.each do |org|
+              .list-group-item
+                = link_to org.name, info_organization_index_path(type_organization: org.type_org_id, id: org.id)
+        - else
+          %h4
+            %center
+              По вашему запросу ничего не найдено

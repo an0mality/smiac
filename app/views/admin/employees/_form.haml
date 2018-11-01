@@ -1,0 +1,29 @@
+= simple_form_for phone, url: url, method: met  do |f|
+  .modal-body
+    =label :boss, 'Начальник отдела'
+    =f.check_box :boss
+    %br
+      %br
+
+    =label :surname,'Фамилия:'
+    =f.text_field :surname, class: 'form-control'
+    =label :name,'Имя:'
+    =f.text_field :name, class: 'form-control'
+    =label :patronymic,'Отчество:'
+    = f.text_field :patronymic, :class => "form-control"
+    =label :phone_number,'Телефон'
+    = f.text_field :phone_number, :class => "form-control"
+    =label :department_id,'Отдел:'
+    = f.select :department_id, options_from_collection_for_select(Department.all, :id, :name, { :selected => @phone.department_id.present? ? @phone.department_id : nil}),{include_blank: 'Выберите отдел'}, { class: 'form-control'}
+
+  .modal-footer
+    = f.submit slovo, class: 'btn btn-primary btn-lg btn-block'
+  %p
+    = link_to admin_department_index_path, class: 'btn btn-success ' do
+      < Назад к отделам
+  %p
+    = link_to admin_employees_path, class: 'btn btn-success ' do
+      < Назад к сотрудникам
+  %p
+    = link_to "1 шаг назад", "javascript:history.go(-1);"
+

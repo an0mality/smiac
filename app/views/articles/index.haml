@@ -1,0 +1,94 @@
+- title 'Новости МИАЦ Калужской области'
+- meta_tag :description, 'Последние новости по медицинской статистике Калуга'
+- meta_tag :keywords, 'новости, МИАЦ Калуга'
+
+.row
+  -#.col-md-1
+  .col-md-12
+
+    .panel.panel-info{style:"font-size: 14px;"}
+      .panel-heading
+        %i
+          .path
+            Новости
+            .pull-right{style: 'padding-left: 15px;'}
+              =link_to rss_path, target: :blank, :rel => "alternate", :title => "RSS поток", :type => "application/rss+xml" do
+                %i.fa.fa-rss
+                RSS
+            
+            .pull-right
+          
+              =link_to new_subscribe_path, title: 'Оформить подписку на новости' do
+                %i.fa.fa-envelope-o
+                Подписаться
+
+
+
+      .panel-body
+
+        .pull-right
+          .form-inline
+            = form_tag(request.path, method: "get", class: "form-horizontal") do
+              = text_field_tag :search, params[:search], placeholder: "Поиск по новостям", class: "form-control"
+              = submit_tag 'Найти', class: 'btn btn-sm btn-primary'
+
+        - unless @articles.present?
+          .row
+            .col-md-12
+              %center
+                %h2
+                  Возможно вы ничего не нашли.
+        - else
+          -#.col-md-12
+          -#  .pull-right
+          -#    %form.form-inline
+          -#      .form-group
+                  -#= form_tag(request.path, method: "get", class: "form-horizontal") do
+
+                  -#= text_field_tag :search, params[:search], placeholder: "Поиск по новостям", class: "form-control"
+          %table.table.table-hover.table-condensed
+          - @articles.each do |article|
+            .my_panel
+              .my_panel-heading
+                .row
+                  .col-md-6{style:'font-size: 13px;'}
+                    .pull-left
+                      %i.fa.fa-calendar
+                      = I18n.l article.created_at, format: :long
+                      ,
+                      %i.fa-fw.fa.fa-eye{title: 'Просмотров', style:'cursor: pointer'}
+                      =article.count_views
+
+
+
+                  .col-md-6
+                    .pull-right
+                      =render 'shared/social_share'
+
+              .panel-body
+                
+                .row-fluid
+                  .col-md-12
+                    -if article.body.present? && article.article_image.present?
+                      
+                      =image_tag("#{article.article_image.name}", style: "float: left; padding: 1em; width: 15%; ")                        
+                      %h3.text-center=article.title
+                      %br
+                      %p= truncate( raw( sanitize(article.body.html_safe, :tags => %w(), :attributes => %w(id class style) ) ), :length => 130, :omission => "...")
+                    -elsif article.body.present? && article.article_image.blank?
+                      =image_tag("miac.png", style: "float: left; padding: 1em; width: 15%;")
+                      %h3.text-center=article.title
+                      %br
+                      
+                      = truncate( raw( sanitize(article.body.html_safe, :tags => %w(), :attributes => %w(id class style) ) ), :length => 130, :omission => "...")
+                    -else
+                      Описание новости не указано                    
+                      
+
+                .row
+                  .col-md-12
+                    .pull-right
+                      %h4=link_to 'Подробнее', article_path(article), class: 'btn btn-sm btn-primary'
+            %br
+          %center
+            = will_paginate @articles, :previous_label => t("<"), :next_label => t(">")

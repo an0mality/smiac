@@ -1,0 +1,34 @@
+- title 'Телефоны МИАЦ Калужской области'
+- meta_tag :description, 'сотрудники и их контактные телефоны медицинского информационно-аналитического центра Калужской области'
+- meta_tag :keywords, 'сотрудники МИАЦ Калуга, телефон, как связатьсяб телефонная книга, МИАЦ Калуга'
+.container-fluid
+  .row
+    .col-md-2
+    .col-md-8
+      %p
+        = link_to new_admin_employee_path, class: 'btn btn-danger' do
+          Добавить сотрудника
+
+        -#= link_to 'Сформировать Excel с телефонами', get_employees_admin_employees_path, class: "btn btn-primary"
+      .panel.panel-info{style:"font-size: 14px;"}
+        .panel-heading
+          .row
+            .col-md-10
+              %i
+                .path
+                  Панель администратора > О нас > Телефонный справочник
+            .col-md-2
+        .panel-body
+
+          %p
+          - @cabinets.each do |department|
+            -#%tr
+            -#  %td{style:"colspan: 2;"}
+            %strong
+              %i #{department.name} (кабинет № #{department.cabinet_number})
+
+            -#%tr
+            =render 'table_employee', department: department
+
+        %br
+        %br

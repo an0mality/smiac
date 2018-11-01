@@ -1,0 +1,50 @@
+- title 'Структура МИАЦ Калужской области'
+- meta_tag :description, 'Отделы, выполняемые задачи, сотрудники медицинского информационно-аналитического центра Калужской области'
+- meta_tag :keywords, "сотрудники, телефон, отделы, МИАЦ Калуга, #{@department.name}"
+.container-fluid
+  .row
+    .col-md-2
+      %ul.nav.nav-pills.nav-stacked.my-left-menu
+        - @cabinets.each do |department|
+          %li{class: params[:department_id].to_i == department.id.to_i ? "active_doc" : ""}
+            = link_to department.name, departments_about_index_path(department_id: department.id)
+
+    .col-md-10
+      %i
+        .path
+          О нас > Отделы МИАЦ > #{@department.name}
+
+      .panel.panel-info
+        .panel-heading{style:"font-size: 20px;"}
+          #{@department.name}
+          %span (кабинет №
+          %span #{@department.cabinet_number}
+          %span)
+          .pull-right=render 'shared/social_share'
+        .panel-body{style:"font-size: 16px;"}
+          - if @department.description.present?
+            = image_tag('info.png', style: "width: 20px;", href: '#')
+            %span
+              %strong.text-info
+                = @department.description
+            %p
+            %p
+
+          -#= image_tag('contacts.png', style: "width: 30px;", href: '#')
+          -#%span.text-info Информация
+          %p
+          %table.table.table-bordered.table-condensed.table-hover
+            %tr
+              %th.text-center Фамилия, имя, отчество сотрудника
+              %th.text-center Контактный телефон
+            - @employees.each do |employee|
+              %tr
+                %td
+                  %h5
+                    %strong #{employee.fio}
+                %td
+                  %h5 #{employee.phone_number}
+  %br
+    %br
+
+

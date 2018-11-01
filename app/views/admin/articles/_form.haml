@@ -1,0 +1,58 @@
+-#= simple_form_for article, url: url, method: :post  do |f|
+-#  = f.label :title, 'Название новости'
+-#  %br
+-#  = f.text_area :title, class:'form-control'
+-#  %br
+-#  = f.label :body, 'Текст новости'
+-#  %br
+-#  = f.text_area :body, :class => "redactor", :rows => 40, :cols => 120
+-#  %br
+-#  = f.hidden_field :user_id, value: current_user.id
+-#  = f.hidden_field :created_at, value: Time.now
+-#
+-#  = f.submit 'Создать ссылку', class: "btn btn-primary"
+
+/ =javascript_include_tag 'admin/article.js'
+
+.container-fluid
+  = simple_form_for article, url: url, method: method do |f|
+    -#= f.error_messages
+    - if article.show.present?
+      - if article.show == false
+        - check_val = true
+    - else
+      - check_val = false
+
+    .row-fluid
+      .col-md-6
+        = f.label :title, 'Название новости'
+        %br
+        = f.text_field :title, class:'form-control'
+      .col-md-6
+        .inline-checkbox
+          = f.label :show, 'Опубликовать'
+          = f.input_field :show, as: :boolean, boolean_style: :inline
+          -if article.article_image.present?
+            -selected = article.article_image.tag.id
+
+          =select_tag :tag_id, options_from_collection_for_select(Tag.all.order(:name), :id, :name, selected: selected), prompt: 'Выберите тему новости', class: 'form-control'
+        -#%span= f.hint 'Отметьте, если хотите опубликовать новость'
+
+    .row-fluid
+      .col-md-12
+       
+        = f.label :body, 'Описание новости'
+        %br
+        -#= f.cktext_area :body, as: :ckeditor
+        = f.text_area :body, :class => "redactor", :rows => 40, :cols => 120
+        -#= f.input_field :body, class: 'redactor', :rows => 40, :cols => 120
+        -#, value: article.body
+        -#= f.error :body, id: 'article_body_error'
+
+    .row-fluid
+      .col-md-12
+        = f.hidden_field :user_id, value: current_user.id
+    .row-fluid
+      .col-md-12
+        = f.submit "Сохранить", :class => "btn btn-primary"
+

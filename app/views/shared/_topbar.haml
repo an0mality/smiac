@@ -1,0 +1,97 @@
+
+.container
+  .topbar
+    %ul.loginbar.pull-right
+      %li
+        - unless user_signed_in?
+          = link_to "#", "data-target" => "#myModal", "data-toggle" => "modal" do
+            %i.fa.fa-sign-in
+            Вход
+
+        - else
+          = link_to "#{current_user.email}",destroy_user_session_path, :method => :delete, :data => { :confirm => 'Вы уверены, что хотите выйти из системы?' }
+      |
+
+      %li
+        = link_to "#", "data-target" => "#mednetModal", "data-toggle" => "modal" do
+          %i.fa.fa-user-secret
+          Вход в mednet
+
+
+    %br
+    
+.nav.navbar{style: "margin-bottom: 9px;"}
+  %a.navbar-brand{:href => "#"}
+    = image_tag('MIAC_full_grey.png', style: "width: 160px; margin-top: -3%;")
+  .container-fluid
+    %button.navbar-toggle{"data-target" => ".navbar-responsive-collapse", "data-toggle" => "collapse", :type => "button"}
+      %span.sr-only Toggle navigation
+      %span.fa.fa-bars
+    .navbar-header
+    .collapse.navbar-collapse.mega-menu.navbar-responsive-collapse
+      .container.top_links
+        %ul.nav.navbar-nav
+          %li{class: (request.path == root_path ? "active" : " ")}
+            = link_to root_path do
+              %i.fa.fa-home.fa-lg
+          %li{class: (request.path == articles_path ? "active" : " ")}
+            = link_to "Новости",  articles_path
+          -#%li
+          -#  = link_to "Материалы", root_path
+          %li.dropdown{class: request.path == statistics_path ? "active": "" }
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "javascript:void(0);"}
+              Статистика
+            %ul.dropdown-menu
+              %li
+                = link_to "Статистика", statistics_path
+
+              %li
+                = link_to "Графики", chart_statistics_path
+              %li
+                = link_to "Информация и документы", docs_statistics_path
+              %li
+                = link_to "Выездные проверки", additionally_statistics_path
+            %li{class: (request.path == documents_path ? "active" : " ")}
+              - if Document.all.count > 0
+
+                - param = documents_path(document_id: Document.first.document_stage_id)
+              - else
+                - param =documents_path
+
+              = link_to "Документы", param
+
+
+
+
+          - if TypeOrganization.present?
+            %li.dropdown.mega-menu-fullwidth
+              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "javascript:void(0);"}
+                Учреждения
+              = render 'shared/org_top'
+
+          %li{class: request.path == projects_path ? "active": "" }
+            = link_to "Информатизация", projects_path
+          %li{class: (request.path == show_video_list_classroom_index_path || request.path == classroom_index_path) ? "active": "" }
+            - if VideoPlaylist.all.count > 0
+
+              - param = show_video_list_classroom_index_path(act: 'video', id: VideoPlaylist.first.id  )
+            - else
+              - param = classroom_path
+            = link_to "Видеоматериалы", param
+          -#%li.dropdown{class: request.path == show_video_list_classroom_index_path ? "active": "" }
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "javascript:void(0);"}
+              Обучение
+            %ul.dropdown-menu
+              %li
+                = link_to 'Методические пособия', classroom_index_path(act: 'book')
+              %li
+                = link_to 'Видеоматериалы', show_video_list_classroom_index_path(act: 'video', id: VideoPlaylist.first.id  )
+          -#%li{class: request.path == classroom_index_path ? "active": "" }
+          -#  = link_to "Курсы/Обучение", classroom_index_path
+          -#%li{class: request.path == service_pat h ? "active": "" }
+          -#  = link_to "Услуги", service_path
+          %li{class: request.path == about_path ? "active": "" }
+            = link_to "О нас", about_path
+
+          %li{class: request.path == calendar_path ? "active": "" }
+            = link_to "Календарь отчетности", calendar_path

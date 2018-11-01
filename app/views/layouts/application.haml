@@ -1,0 +1,55 @@
+!!!
+%html{:lang => "ru"}
+  -#.js.cssanimations.csstransitions{:lang => "en"}
+  %head
+
+
+    %title
+      = if content_for?(:title) then yield(:title) + ' | ' end
+      Официальный сайт ГБУЗ КО МИАЦ Калужской области
+
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    / , :async => true
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+
+    = csrf_meta_tags
+    = javascript_include_tag 'bootstrap.js', :async => true
+    = javascript_include_tag 'captcha.js', :async => true    
+    -#.%script{:async => true, :src => "https://www.google.com/recaptcha/api.js?hl=ru"}
+    %meta{:content => "#{yield_meta_tag(:description, 'Официальный сайт ГБУЗ МИАЦ Калужской области')}", :name => "description"}
+    %meta{:content => "#{yield_meta_tag(:keywords, 'Калуга, МИАЦ Калуга, ГБУЗ МИАЦ Калужской области, МИАЦ, медицинский информационно-аналитический центр')}", :name => "keywords"}
+
+
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+    -#%meta{name: "description", content: "Калуга, МИАЦ Калуга, ГБУЗ МИАЦ Калужской области, МИАЦ"}
+    -#%meta{:content => "xxx", :name => "author"}
+    %meta{name:"google-site-verification", content:"xxx"}
+    %meta{:content => "8xxx", :name => "yandex-verification"}/
+    %link{:href => "/favicon.ico", :rel => "shortcut icon", :type => "image/x-icon"}/
+    %link{:href => "/favicon.ico", :rel => "icon", :type => "image/x-icon"}/
+
+    %script{:src => "https://www.google.com/recaptcha/api.js?render=explicit&hl=ru"}
+
+    %script{:src=>"https://api-maps.yandex.ru/2.1/?lang=ru_RU", :type=>"text/javascript"}/
+  %body
+    
+    .content
+      
+      = render 'shared/topbar_welcome'
+      = bootstrap_flash
+      -#.c{style: 'margin: 5em;'}
+      #wrapper
+        = yield
+      = render 'shared/footer'
+    
+        
+:javascript
+  window.onload = function() {
+      var recaptcha2 = document.getElementById('RecaptchaField2');
+      grecaptcha.render('RecaptchaField1', {'sitekey' : 'xxx'});    
+      
+      if(recaptcha2 != undefined){
+        grecaptcha.render('RecaptchaField2', {'sitekey' : 'xxx'});
+      }
+  }

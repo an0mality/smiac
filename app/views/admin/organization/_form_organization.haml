@@ -1,0 +1,23 @@
+.row
+  .col-md-10.col-md-offset-1
+    = form_for data, url: url do |f|
+      -#= f.label :name , ''
+      = f.label :name, 'Краткое наименование'
+      = f.text_field :name, value: data.name ,placeholder: 'Краткое наименование', class:'form-control'
+      = f.label :full_name, 'Полное наименование'
+      = f.text_area :full_name, value: data.full_name, placeholder: 'Полное наименование', class:'form-control'
+      = f.label :type_organization_id, 'Тип организации'
+      %br
+      = f.select(:type_organization_id, TypeOrganization.all.collect {|p| [ p.name, p.id ] }, { include_blank: true }, {selected: data.type_organization_id.present? ? data.type_organization_id : params[:type_organization_id]})
+      %br
+      = f.label :address, 'Адрес организации'
+      = f.text_area :address, value: data.address, placeholder: 'Укажите адрес организации. Пример: 248000, обл. Калужская, г. Калуга, ул. Вилонова, д. 35', class:'form-control'
+      = f.label :web_site, 'Сайт организации'
+      = f.text_field :web_site, value: data.web_site, placeholder: 'Укажите адрес сайта организации. Пример:sitename.ru', class:'form-control'
+      = f.label :tel_secretary, 'Телефоны организации'
+      = f.text_area :tel_secretary, value: data.tel_secretary, placeholder: 'Введите в это поле контактные телефоны оргнаизации. Пример: Секретарь: (4842) 11-11-11, Регистратор: (48432) 5-11-11', class:'form-control'
+      %br
+      .row
+        .col-md-6
+          .pull-left
+            = f.submit "Сохранить", class: "btn btn-sm btn-success"

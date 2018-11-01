@@ -1,0 +1,71 @@
+- title 'Карта сайта МИАЦ Калужской области'
+- meta_tag :description, 'карта сайта МИАЦ Калуга'
+- meta_tag :keywords, 'карта сайта, карта, структура, МИАЦ Калуга'
+.container-fluid
+  .row
+    -#.col-md-1
+    .col-md-12
+
+      .panel.panel-info{style:"font-size: 14px;"}
+        .panel-heading
+          %i
+            .path
+              Карта сайта
+        .panel-body
+          %li
+            %a{href: root_path, target: :blank} Главная
+          %li
+            %a{href: calendar_index_path, target: :blank} Календарь отчетности
+          %li
+            %a{:href => eco_index_path, target: :blank} Анкета удовлетворенности пациентов оказанием медицинской помощи с использованием метода экстракорпорального оплодотворения (ЭКО)
+          
+          %li
+            %a{href: articles_path, target: :blank} Новости
+          %li
+            %a{href: '#'} Документы
+          -DocumentStage.where('parent_id is null').order(:id).each do |doc|
+            %li{style:'padding-left: 2em;'}
+              %a{href: documents_path(parent_id:doc.id), target: :blank}=doc.name
+              -DocumentStage.where(parent_id:doc.id).order(:id).each do |d|
+                %li{style:'padding-left: 4em;'}
+                  %a{href: documents_path(parent_id:doc.id, document_stage_id: d.id), target: :blank}=d.name
+
+          %li
+            %a{href: rmi_index_path, target: :blank} РМИС
+            -FaqRmisTheme.order(:id).each do |r|
+              %li{style:'padding-left: 2em;'}
+                %a{href: rmi_index_path, target: :blank}=r.name
+          %li
+            %a{href: show_video_list_classroom_index_path(id: VideoPlaylist.first.id), target: :blank} Видеоматериалы
+            -VideoPlaylist.order(:id).each do |v|
+              %li{style:'padding-left: 2em;'}
+                %a{href: show_video_list_classroom_index_path(id: v.id), target: :blank}=v.title
+          %li
+            %a{href: info_organization_index_path(type_organization: TypeOrganization.first.id), target: :blank} Организации
+            -TypeOrganization.order(:id).each do |type|
+              %li{style:'padding-left: 2em;'}
+                %a{:href => info_organization_index_path(type_organization: type), target: :blank} #{type.name}
+          %li
+            %a{href: summary_nok_organization_index_path(type: 'amb'), target: :blank} Независимая оценка качества МО           
+          %li{style:'padding-left: 2em;'}
+            %a{href: summary_nok_organization_index_path(type: 'amb'), target: :blank} Амбулатория         
+          %li{style:'padding-left: 2em;'}
+            %a{href: summary_nok_organization_index_path(type: 'stac'), target: :blank} Стационар          
+          %li{style:'padding-left: 2em;'}
+            %a{href: summary_nok_organization_index_path(type: 'san'), target: :blank} Санаторно-курортные МО          
+          %li{style:'padding-left: 2em;'}
+            %a{href: summary_nok_organization_index_path(type: 'ps'), target: :blank} Психиатрические МО           
+
+          %li
+            %a{:href => tasks_about_index_path, target: :blank} О нас
+          %li{style:'padding-left: 2em;'}
+            %a{:href => tasks_about_index_path, target: :blank} Задачи МИАЦ
+          %li{style:'padding-left: 2em;'}
+            %a{:href => contacts_about_index_path, target: :blank} Контактная информация
+          %li{style:'padding-left: 2em;'}
+            %a{:href => departments_about_index_path, target: :blank} Отделы МИАЦ
+          %li{style:'padding-left: 2em;'}
+            %a{:href => phones_about_index_path, target: :blank} Телефонный справочник
+          %li{style:'padding-left: 2em;'}
+            %a{:href => vacancies_about_index_path, target: :blank} Вакансии
+

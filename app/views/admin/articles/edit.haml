@@ -1,0 +1,60 @@
+
+.container-fluid
+  .panel.panel-info
+    .panel-heading
+      .row
+        .pull-left
+          Панель администратора > Редактирование новости
+        .pull-right
+          = link_to '< К списку новостей', admin_articles_path, class: 'btn btn-sm btn-danger'
+    .panel-body
+      - if @article.present?
+        .row
+          .col-md-10
+            .container-fluid
+              = render 'form', article: @article, url: admin_article_path(@article), method: 'put'
+              -#= simple_form_for @article, url: request.path, method: :post do |f|
+              -#  -#= f.error_messages
+              -#  - if @article.show.present?
+              -#    - if @article.show == false
+              -#      - check_val = true
+              -#  - else
+              -#    - check_val = false
+              -#
+              -#  .row-fluid
+              -#    .col-md-6
+              -#      = f.label :title, 'Название новости'
+              -#      %br
+              -#      = f.text_area :title, class:'form-control'
+              -#    .col-md-6
+              -#      .inline-checkbox
+              -#        = f.label :show, 'Опубликовать'
+              -#        = f.input_field :show, as: :boolean, boolean_style: :inline
+              -#  -#%span= f.hint 'Отметьте, если хотите опубликовать новость'
+              -#
+              -#  .row-fluid
+              -#    .col-md-12
+              -#      = f.label :body, 'Описание новости'
+              -#      %br
+              -#      = f.input_field :body, class: 'redactor', :rows => 40, :cols => 120
+              -#      -#, value: article.body
+              -#      = f.error :body, id: 'article_body_error'
+              -#
+              -#  .row-fluid
+              -#    .col-md-12
+              -#      = f.hidden_field :user_id, value: current_user.id
+              -#      = f.hidden_field :created_at, value: Time.now
+              -#  .row-fluid
+              -#    .col-md-12
+              -#      = f.submit "Сохранить", :class => "btn btn-primary"
+
+
+
+      - else
+        %h4 Новость не найдена
+
+
+
+
+
+

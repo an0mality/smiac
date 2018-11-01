@@ -1,0 +1,151 @@
+=javascript_include_tag 'home.js'
+
+#lastNews
+  .row
+    .col-md-12
+      .panel.panel-info
+        .panel-heading
+          .row
+            .col-md-6
+              Последние новости
+            .col-md-6
+              .pull-right
+                = link_to rss_path, target: :blank, :rel => "alternate", :title => "RSS поток", :type => "application/rss+xml" do
+                  %i.fa.fa-rss-square.fa-lg{style: 'color: #FFA500;'}
+                RSS поток
+        .panel-body
+          .text-center
+            .row
+              -if @articles.present?
+                -@articles.each do |a|
+                  .col-md-4
+                    %br
+                    %div.image
+                      %p.articleInfo
+                        %i.fa.fa-calendar
+                        = I18n.l a.created_at, format: "%d.%m.%Y"
+                        ,
+                        %i.fa-fw.fa.fa-eye{title: 'Просмотров', style:'cursor: pointer'}
+                        =a.count_views
+
+
+                      -if a.article_image.present?
+                        =link_to image_tag("#{a.article_image.name}", class: 'img'), {action: 'show', controller: 'articles', id: a.id}
+                      -else
+                        =link_to image_tag("miac.png", class: 'img'), {action: 'show', controller: 'articles', id: a.id}
+                      %p.textBlock
+                        =link_to a.title.html_safe, article_path(a), target: :blank
+
+  - if @rss_results.present?
+    .row
+      .col-md-12
+        .panel.panel-info
+          .panel-heading
+            Последние новости с сайта Министерства Здравохранения РФ (#{link_to 'rosminzdrav.ru', "https://www.rosminzdrav.ru", target: :blank})
+          .panel-body
+            .row
+              %div
+                - @rss_results.each do |rss|
+                  .col-md-3
+                    -#%div{style: 'text-align: center; display: flex; justify-content: center;  flex-direction: column;  height: 140px;'}
+                    %div{style: 'text-align: center; display: flex; justify-content: center;  flex-direction: column;  height: 140px;'}
+                      -#%i.fa.fa-calendar= I18n.l rss[:date], format: "%d.%m.%Y"
+                      = link_to rss[:link], target: :blank do
+                        %i.fa.fa-calendar
+                          -#=I18n.l rss[:date], format: "%d.%m.%Y"
+                        -#=rss[:title]
+                        #{I18n.l rss[:date], format: "%d.%m.%Y" +' '+ rss[:title]}
+
+                      -#= link_to rss[:title], rss[:link], target: :blank
+
+
+  .row
+    .col-md-12
+      .panel.panel-info
+        .panel-heading
+          Обратите внимание!
+        .panel-body
+          .row
+            %br
+            .col-md-5
+              %div
+                =link_to image_tag("calendar.png", class: 'image-important', :alt => "Календарь"),{action: 'index', controller: 'calendar'}
+                .adv-important-info
+                  На нашем сайте в разделе 'Календарь отчетности' вы в любое удобное время сможете просмотреть список отчетов на каждый день, которые необходимо сдать в ГБУЗ КО 'МИАЦ Калужской области'.
+                  %span=link_to 'Перейти к просмотру календаря', calendar_index_path, target: :blank
+                  %p Для оперативного информирования о сроке сдачи отчета на нашем сайте организована подписка на события календаря за текущие сутки.
+                  %span=link_to 'Перейти к странице подписки', new_subscribe_path, target: :blank
+
+            .col-md-5.col-md-offset-1
+              %div
+                - st = DocumentStage.where('lower(name) like lower (?)', "%статистика%")
+                - if st.present?
+                  
+                  -parent_id=st.first.id
+                
+                =link_to image_tag("stat_bars_new.png", :alt => "Медицинская статистика" , class: 'image-important'),{controller: 'documents', action: 'index', parent_id: parent_id}
+                .adv-important-info
+                  На нашем сайте размещены документы по медицинской статистике. 
+                  %p В разделе Документы > Медицинская статистика представлены приказы, инструкции, формы, согласно которым медицинские организации, подведомственные министерству здравоохранения Калужской области, подают сведения по медицинской стаитистике в ГБУЗ КО 'МИАЦ Калужской области'
+
+#advertisement
+  .row
+    .col-md-4
+      .panel.panel-info.panel-adv
+        .panel-heading
+          Независимая оценка качества оказания услуг медицинскими организациями
+        .panel-body
+          .adv-info
+            Специалистами ГБУЗ КО 'МИАЦ Калужской области' был произведен расчет параметров по результатам анкетирования в рамках независимой оценки качества оказания услуг медицинскими организациями. Результаты опубликованы на нашем сайте.
+          %p
+            .pull-right
+              =link_to summary_nok_organization_index_path(type: 'amb'), target: :blank, class: 'btn btn-sm btn-primary' do
+                %i.fa.fa-search
+                Просмотр результатов
+
+    .col-md-4
+      .panel.panel-info.panel-adv
+        .panel-heading
+          Качество оказания услуг ЭКО медицинскими организациями в Калужской области
+        .panel-body
+          .adv-info
+            На нашем сайте по поручению министерства здравоохранения Калужской области размещена анкета по независимой оценке качества медицинских услуг по процедуре ЭКО, оказываемых в медицинских организациях Калужской области.
+          %p
+            .pull-right
+              =link_to eco_index_path, target: :blank, class: 'btn btn-sm btn-primary' do
+                %i.fa.fa-search
+                Голосовать
+    .col-md-4
+      .panel.panel-info.panel-adv
+        .panel-heading
+          БАРС. Мониторинг. Здравоохранение.
+        .panel-body
+          .adv-info
+            Для обработки и хранения статистической информации ГБУЗ КО 'МИАЦ Калужской области' использует информационно-аналитическую систему БАРС. Мониторинг. Здравоохранение.
+            %p Чтобы ознакомится с материалами по установке и работе в данной системе обратитесь к документам, размещенным в разделе Документы > Методические указания > ИАС БАРС.
+
+          %p
+            .pull-right
+              =link_to documents_path(document_stage_id: 42, parent_id: 6), target: :blank, class: 'btn btn-sm btn-primary' do
+                %i.fa.fa-search
+                Ознакомиться
+
+:css
+
+  .vyrovnyat {
+  display: table;
+  width: 100%;
+  height: 7em; /* работает также как min-height, то есть будет растягиваться пока не поместится всё содержимое */
+  text-align: center;
+  background: #fff5d7;
+  }
+  .vyrovnyat div { /* для IE8+ */
+    display: table-cell;
+    vertical-align: middle;
+  }
+  .vyrovnyat div:nth-child(4) { /* не менее высоты родителя */
+    background: #9F9;
+  }
+
+
+

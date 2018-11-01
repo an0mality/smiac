@@ -1,0 +1,9 @@
+-@types.each do |type|
+  %p
+  =link_to admin_type_organization_path(type),  class: 'btn btn-sm btn-danger', method: :delete, remote: true, data: {confirm: 'Точно удалить тип '+type.name+ '?'}, title: 'Удалить' do
+    %i.fa.fa.fa-trash-o
+            
+            
+        
+  %span.name{style:'padding-left: 15px; padding-top: 5px; '}= best_in_place type, :name, :as => :input, url: admin_type_organization_path(type)
+  

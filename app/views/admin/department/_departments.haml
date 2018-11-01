@@ -1,0 +1,19 @@
+- @departments.each do |department|
+  .panel.panel-info
+    .panel-heading
+      = best_in_place department, :name, :as => :textarea, url: admin_department_path(department.id)
+      %span (кабинет №
+      = best_in_place department, :cabinet_number, :as => :input, url: admin_department_path(department.id)
+      %span )
+      = link_to edit_admin_department_path(department), title: 'Редактировать отдел' do
+        %i.fa.fa-pencil
+
+      = link_to admin_department_path(department), method: :delete, remote: true, title: 'Удаление', data: { confirm: 'Вы уверены, что хотите удалить?' } do
+        %i.fa.fa-trash-o{style: "color:red"}
+    .panel-body{style:"font-size: 16px;"}
+
+      %span
+        %strong.text-info
+          = best_in_place department, :description, :as => :textarea, url: admin_department_path(department.id)
+
+      =render 'admin/employees/table_employee', department: department

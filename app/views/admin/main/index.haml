@@ -1,0 +1,78 @@
+.row{style: 'margin:auto; padding-top: 2em; '}
+	.col-md-5
+		.panel.panel-info
+			.panel.panel-heading
+				Яндекс Метрика
+			.panel.panel-body
+				%span Для просмотра данных по статистике посещений нашего сайта перейдите по ссылке
+				%a{:href => "https://metrika.yandex.ru/stat/?id=xxx&from=informer", :rel => "nofollow", :target => "_blank"}
+					%img{:alt => "Яндекс.Метрика", :src => "https://informer.yandex.ru/informer/xxx_pageviews", :style => "width:88px; height:31px; border:0;", :title => "Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)"}/
+
+				%img{:alt => "", :src => "https://mc.yandex.ru/watch/xxx", :style => "position:absolute; left:-9999px;"}/
+				%link{:href => "https://metrika.yandex.ru/stat/?id=xxx&from=informer", :rel => "import"}/
+
+
+
+		.panel.panel-info
+			.panel.panel-heading
+				Новости
+			.panel.panel-body
+				%p.text-info Создано новостей:  #{@countNews} 		
+				-if @countNews > 0
+					%p.text-success Последние опубликованные новости:
+					%table.table.table-bordered
+						%thead
+							%tr
+								%th Наименование
+								%th Загрузил
+								%th Кол-во просмотров (с 01.12.17)
+								%th Дата создания
+						%tbody
+							-@news.each do |n|
+								%tr
+									%td=link_to n.title, article_path(n), target: :blank, title: 'Перейти на сайт для просмотра'
+									%td=n.user.fio
+									%td=n.count_views
+									%td=I18n.l n.created_at, format: :long
+
+
+	.col-md-7
+		.panel.panel-info
+			.panel.panel-heading
+				Документы
+			.panel.panel-body
+				%p.text-info Загружено документов: #{@countDoc} 		
+				-if @countDoc > 0
+					%p.text-success Последние загруженные документы:
+					%table.table.table-bordered
+						%thead
+							%tr
+								%th Наименование
+								%th Размер
+								%th Загрузил
+								%th Кол-во просмотров
+								%th Дата загрузки
+						%tbody
+							-@docs.each do |doc|
+								%tr
+									%td= link_to doc.filename, document_path(doc), title: 'Скачать документ'
+									%td #{doc.file_contents.bytesize/1024}  Кб
+									%td=doc.user.fio
+									%td=doc.count_download
+									%td=I18n.l doc.created_at, format: :long
+
+
+		.panel.panel-info
+			.panel.panel-heading
+				Разное
+			.panel.panel-body
+				%p.text-info Загружено #{@countVideo} видеофайла. 
+				%p.text-success{style: 'padding-left: 1em;'} Загружено #{@countRmi} вопроса по РМИС.
+				%p.text-warning{style: 'padding-left: 2em;'} Загружено #{@countDeps} отделов МИАЦ.
+				%p.text-danger{style: 'padding-left: 3em;'} Загружен #{@countEmpls} контакт сотрудников МИАЦ.
+
+
+
+	
+
+

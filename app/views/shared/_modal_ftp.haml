@@ -1,0 +1,21 @@
+#ftpModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{style: "margin-top: 200px; width:80%; z-index: 99999;"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#ftpModalLabel.modal-title Переход на закрытый ftp-ресурс МИАЦ Калужской области
+      .modal-body
+        %center
+          %p
+            %h3{style: "color: red;"}
+              Обращаем Ваше внимание, что доступ к ресурсу ОГРАНИЧЕН!!!
+        %p
+          %strong
+            В случае возникновении проблемы при загрузке страницы после нажатия на кнопку "Перейти на закрытый ftp-ресурс", необходимо обратится за консультациями по телефону 8 (4842) 70-50-13 доб 32.
+        %p{style: "font-size: 9px;"}
+          %i
+            *Для дальнейшей работы с закрытой системой будет взят Ваш ip адрес: #{request.remote_ip}
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Закрыть
+        = link_to 'Перейти на закрытый ftp-ресурс', 'ftp://10.2.1.211', class: 'btn btn-primary', 'data-loading-text'=> "Осуществляется переход..."

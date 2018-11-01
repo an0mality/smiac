@@ -1,0 +1,69 @@
+= render "new_vacancy_form"
+= render "edit_vacancy_form"
+.container-fluid
+  .row
+    .col-md-1
+    .col-md-10
+      .row
+        %p
+          = link_to "Добавить вакансию", "#", "data-target" => "#newModal", "data-toggle" => "modal", class: "btn btn-danger"
+        .panel.panel-info
+          .panel-heading
+            Панель администратора > О нас > Вакансии
+
+          .panel-body
+            .text-info{style:"font-size: 15px;"}
+            - if @vacancies.present?
+              - @vacancies.each do |vacancy|
+                .well{style: "color:black;"}
+                  %i.fa.fa-calendar
+                  =I18n. l vacancy.created_at, format: :long
+                  
+                  %p
+                  %i.fa.fa-check
+                  *
+                  %span
+                    %strong.text-info{style:"font-size: 22px;"}
+                      = best_in_place vacancy, :name, :as => :input, url: edit_admin_vacancy_path(vacancy.id)
+                  %span
+                    .pull-right
+                      Заработная плата*:
+                      = best_in_place vacancy, :pay, :as => :input, url: edit_admin_vacancy_path(vacancy.id)
+
+                  - if vacancy.requirements.present?
+                    %p
+                    %strong Требования:
+                    %br
+                    %i
+                      -#= best_in_place vacancy, :requirements, :as => :textarea, url: edit_admin_vacancy_path(vacancy.id)
+                      = vacancy.requirements.html_safe
+                  %br
+                  - if vacancy.responsibility.present?
+                    %strong Обязанности:
+                    %br
+                    %i
+                      = vacancy.responsibility.html_safe
+                      -#= best_in_place vacancy, :responsibility, :as => :input, url: edit_admin_vacancy_path(vacancy.id), sanitize: false
+                    %br
+                  - if vacancy.contacts.present?
+                    %strong Контактное лицо*:
+                    = best_in_place vacancy, :contacts, :as => :input, url: edit_admin_vacancy_path(vacancy.id)
+                    %p
+                  %span
+                    .pull-right
+                      =label :actual,'Опубликована вакансия*:'
+                      = best_in_place vacancy, :actual, as: :checkbox, url: edit_admin_vacancy_path(vacancy.id), collection: {false: "Нет", true: "Да"}
+                  %br
+                  %hr
+                  %p *Щелкните, чтобы отредактировать
+                  = link_to edit_admin_vacancy_path(vacancy), class: 'btn btn-primary' do
+                    %i.fa.fa-pencil
+                    Редактировать
+
+                  = link_to admin_vacancy_path(vacancy), method: :delete, title: 'Удаление', class: 'btn btn-danger', data: { confirm: 'Вы уверены, что хотите удалить?' } do
+                    %i.fa.fa-trash-o
+                    Удалить
+
+            - else
+              %h3
+                .text.center.text-info На данный момент нет ни одной актуальной вакансии

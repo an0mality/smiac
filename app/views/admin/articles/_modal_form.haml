@@ -1,0 +1,13 @@
+#articleModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog"}
+  .modal-dialog{style: "width: 70%;"}
+    -#= form_for Article.new, url: admin_articles_path, method: :post do |f|
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title Добавление статьи
+      .modal-body
+        =render 'form', article: Article.new, url: admin_articles_path, method: 'post'
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Закрыть
+        -#= f.submit "Создать", :class => "btn btn-primary", :disable_with => "Ждите"

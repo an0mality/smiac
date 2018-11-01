@@ -1,0 +1,14 @@
+=javascript_include_tag 'feedback.js', async: true
+#newModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Закрыть", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} х
+        %h4#myModalLabel.modal-title 
+      .modal-body
+        .well
+          Тест на спам
+          #RecaptchaField1
+
+  

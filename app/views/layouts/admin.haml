@@ -1,0 +1,26 @@
+!!!
+%html
+  %head
+    %title Официальный сайт ГБУЗ КО МИАЦ Калужской области. Панель Администратора
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => false
+    = javascript_include_tag 'admin/application', 'data-turbolinks-track' => false
+
+
+    = csrf_meta_tags
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+
+    -#%meta{name: "description", content: "Калуга, МИАЦ Калуга, ГБУЗ МИАЦ Калужской области, МИАЦ Панель администратора"}
+    -#%meta{:content => "Maria Proshakova", :name => "author"}
+    %meta{name:"google-site-verification", content:"xxx"}
+    = stylesheet_link_tag "favicon.ico", :rel => "shortcut icon"
+  %body
+
+    .container-fluid
+      
+      = render 'shared/topbar_welcome_admin'
+      = bootstrap_flash
+      = yield
+
+
+

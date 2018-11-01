@@ -1,0 +1,183 @@
+
+- if current_user.present? && (current_user.admin == true || current_user.moderator == true || current_user.boolean == true)
+  .container-fluid.top_logo
+    .row
+      .col-md-8
+        .top_welcome
+          .container-fluid
+            %center
+              Панель администратора официального сайта Медицинского информационно-аналитического центра Калужской области.
+
+      .col-md-4
+        .pull-right
+          - unless user_signed_in?
+            = link_to "#", "data-target" => "#myModal", "data-toggle" => "modal" do
+              %i.fa.fa-sign-in
+              Вход
+          - else
+            Вы зашли как
+            = current_user.username
+            = link_to "Выход",destroy_user_session_path, :method => :delete, :data => { :confirm => 'Вы уверены, что хотите выйти из системы?' }
+
+
+
+
+  %nav.navbar.navbar-admin{"data-offset-top" => "110", "data-spy" => "affix;"}
+    .container-fluid
+      %button.navbar-toggle{"data-target" => ".navbar-responsive-collapse", "data-toggle" => "collapse", :type => "button"}
+        %span.sr-only Toggle navigation
+        %span.fa.fa-bars
+      .navbar-header
+      .collapse.navbar-collapse.mega-menu.navbar-responsive-collapse
+        .container.top_links
+          %ul.nav.navbar-nav
+            %li
+              %a{:href => root_path}
+                %i.fa.fa.fa-arrow-left
+                На сайт
+            %li{class: (request.path == admin_main_index_path  ? "active_doc" : " ")}
+              %a{:href => admin_main_index_path}
+                %i.fa.fa.fa-bar-chart-o
+                Сводка
+            -if can? :manage, Article
+              %li{class: (request.path == admin_articles_path  ? "active_doc" : " ")}
+                %a{:href => admin_articles_path}
+                  %i.fa.fa.fa-list
+                  Новости
+
+            -if can? :manage, Document
+              - if DocumentStage.all.present?
+                %li.dropdown.mega-menu-fullwidth
+                  %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "javascript:void(0);", class: params[:parent_id].present? ? "active_doc" : " "}
+                    %i.fa.fa.fa-file
+                    Документы
+                  %ul.dropdown-menu
+                    - DocumentStage.where("parent_id is null").order(:name).each do |doc_stage|
+                      %li{class: (params[:parent_id].present? ? "active_drop" : " ")}
+                        %a{href: admin_documents_path(parent_id: doc_stage)} #{doc_stage.name}
+
+                    %li.divider{role: 'separator'}
+                    %li
+                      %a{href: admin_document_stages_path} Разделы документов
+
+              -if can? :manage, VideoPlaylist
+                %li{class: request.path == show_video_list_admin_classroom_index_path ? "active_doc": "" }
+                  - if VideoPlaylist.all.count > 0
+
+                    - param_video = show_video_list_admin_classroom_index_path(id: VideoPlaylist.first.id  )
+                  - else
+                    - param_video = admin_classroom_path
+                  %a{:href => param_video}
+                    %i.fa.fa.fa-video-camera
+                    Видеоматериалы
+
+
+
+
+              -if can? :manage, Organization
+                %li.dropdown.mega-menu-fullwidth
+                  %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "javascript:void(0);", class: (params[:type_organization].present? || request.path == summary_nok_organization_index_path ? "active_doc" : " ")}
+                    %i.fa.fa.fa-home
+                    Учреждения здравоохранения
+                  %ul.dropdown-menu
+                    - TypeOrganization.joins(:organizations).order('type_organizations.name').select('type_organizations.id, type_organizations.name').distinct.each do |type|
+                      %li{class: request.path ==  admin_organization_index_path ? "active_doс" : " "}
+                        %a{:href => admin_organization_index_path(type_organization_id: type.id)} #{type.name}
+                    %li.divider{role: 'separator'}
+                    %li
+                      %a{href: admin_type_organization_index_path} Типы организаций
+              -if can? :manage, FaqRmisTheme
+                %li.dropdown.mega-menu-fullwidth
+                  %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "javascript:void(0);", class: (params[:type_organization].present? ? "active_doc" : " ")}
+                    %i.fa.fa.fa-medkit
+                    РМИС
+                  %ul.dropdown-menu
+                    %li
+                      %a{:href => theme_admin_rmi_index_path} Темы для вопросов
+                    %li
+                      %a{:href => answer_admin_rmi_index_path} Ответы на вопросы
+              -if (can? :manage, Employee) || (can? :manage, Vacancy)
+                %li.dropdown.mega-menu-fullwidth
+                  %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "javascript:void(0);", class: (params[:type_organization].present? ? "active_doc" : " ")}
+                    %i.fa.fa.fa-sitemap
+                    О нас
+                  %ul.dropdown-menu
+                    %li
+                      %a{:href => admin_vacancies_path} Вакансии
+                    %li
+                      %a{:href => admin_employees_path} Телефонный справочник
+                    %li
+                      %a{:href => admin_department_index_path} Отделы
+              -if current_user.present? && current_user.admin
+                %li{class: request.path == admin_users_path ? "active_doс" : " "}
+                  = link_to admin_users_path do
+                    %i.fa.fa-users
+                    Пользователи
+
+              -if can? :manage, User
+                %li{class: request.path == admin_users_path ? "active_doс" : " "}
+                  = link_to edit_user_registration_path do
+                    %i.fa.fa-pencil
+                    Мой профиль
+
+              -if can? :manage, CalendarList
+                %li.dropdown.mega-menu-fullwidth
+                  %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "javascript:void(0);", class: (params[:controller].match('calendar').present? && params[:controller].match('admin').present? ? "active_doc" : " ")}
+                    %i.fa.fa.fa-sitemap
+                    календарь отчетности
+                  %ul.dropdown-menu
+                    %li
+                      %a{:href => admin_calendar_calendar_list_index_path} Отчеты МИАЦ
+                    %li
+                      %a{:href => admin_calendar_calendar_report_type_index_path} Типы отчетов
+                    %li
+                      %a{:href => admin_calendar_calendar_schedule_index_path} Расписания
+                    %li{class: request.path==calendar_2018_path ? 'active':''}
+                      %a{href: calendar_2018_path, target: :blank} Производственный календарь 2018
+                    %li{class: request.path==calendar_2019_path ? 'active':''}
+                      %a{href: calendar_2019_path, target: :blank} Производственный календарь 2019
+
+              -#%li{class: request.path == video_playlist_admin_documents_path ? "active_drop" : " "}
+                %a{href: video_playlist_admin_documents_path} Разделы видео
+
+
+              -#%li.dropdown.mega-menu-fullwidth
+              -#  %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "javascript:void(0);", class: ((params[:parent_id].present? && params[:parent_id].to_i == DocumentStage.medstat[:parent_id]) ? "active_doc" : " ")}
+              -#    Медицинская статистика
+              -#  %ul.dropdown-menu
+              -#    - DocumentStage.medstat[:document_stage_id].each do |doc_stage|
+              -#      %li{class: (DocumentStage.medstat[:document_stage_id].pluck(:id).include? params[:document_stage_id] ? "active_drop" : " ")}
+              -#        %a{href: documents_path(document_stage_id: doc_stage, parent_id: DocumentStage.medstat[:parent_id])} #{doc_stage.name}
+            -#- else
+            -#  %li{class: (request.path == documents_path  ? "active_doc" : " ")}
+            -#    %a{:href => documents_path} Документы
+            -#
+            -#%li{class: (request.path == show_video_list_classroom_index_path || request.path == classroom_index_path) ? "active_doc": "" }
+            -#  - if VideoPlaylist.all.count > 0
+            -#
+            -#    - param_video = show_video_list_classroom_index_path(id: VideoPlaylist.first.id  )
+            -#  - else
+            -#    - param_video = classroom_path
+            -#  %a{:href => param_video} Видеоматериалы
+            -#- if TypeOrganization.present?
+            -#  %li.dropdown.mega-menu-fullwidth
+            -#    %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "javascript:void(0);", class: (params[:type_organization].present? ? "active_doc" : " ")}
+            -#      Учреждения здравоохранения
+            -#    %ul.dropdown-menu
+            -#      - TypeOrganization.order(:id).each do |type|
+            -#        %li
+            -#          %a{:href => info_organizations_path(type_organization: type)} #{type.name}
+            -#%li{class: (request.path == about_path ? "active_doc" : " ")}
+            -#  %li.dropdown.mega-menu-fullwidth
+            -#    %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "javascript:void(0);", class: ((request.path == contacts_about_index_path || request.path == phones_about_index_path || request.path == departments_about_index_path || request.path ==tasks_about_index_path) ? "active_doc" : " ")}
+            -#      О нас
+            -#    %ul.dropdown-menu
+            -#      %li
+            -#        %a{:href => tasks_about_index_path} Задачи МИАЦ
+            -#      %li
+            -#        %a{:href => contacts_about_index_path} Контактная информация
+            -#      %li
+            -#        %a{:href => departments_about_index_path} Отделы МИАЦ
+            -#      %li
+            -#        %a{:href => phones_about_index_path} Телефонный справочник
+

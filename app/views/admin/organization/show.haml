@@ -1,0 +1,21 @@
+.container-fluid
+  .row
+    .col-md-1
+    .col-md-10
+      .panel.panel-info
+        .panel-heading
+          .row
+            .pull-left
+              Панель администратора > Просмотр и редактирование записи об организации
+
+        .panel-body
+          - if @organization.present?
+
+            .row
+              .col-md-10
+                = render 'form_organization', data: @organization,type_id: @organization.type_organization_id, url: request.path
+
+          - else
+            %h4 Такой организации не существует
+
+

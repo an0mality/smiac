@@ -1,0 +1,9 @@
+#editModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog"}
+  .modal-dialog{:style => "width: 40%;"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Закрыть", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} х
+        %h4#myModalLabel.modal-title Форма редактирования вакансии
+        -#= render 'form', vacancy: @vacancy, url: admin_vacancy_path(@vacancy), met: 'put', slovo:"здрасти я ваша тетя"
+

@@ -1,0 +1,8 @@
+#newModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog"}
+  .modal-dialog{:style => "width: 40%;"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Закрыть", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} х
+        %h4#myModalLabel.modal-title Форма создания вакансии
+      =render 'form', vacancy: Vacancy.new, url: create_vacancy_admin_vacancies_path, met: 'post', slovo: 'Создать'

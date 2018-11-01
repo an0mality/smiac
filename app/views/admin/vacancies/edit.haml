@@ -1,0 +1,14 @@
+.container-fluid
+  .row
+    .col-md-2
+    .col-md-8
+      .row
+        .panel.panel-info
+          .panel-heading
+            Панель администратора > О нас > Вакансии > Редактирование
+
+          .panel-body
+            .text-info{style:"font-size: 15px;"}
+            = render 'form', vacancy: @vacancy, url: admin_vacancy_path(@vacancy), met: 'put', slovo:"Изменить"
+            = link_to admin_vacancies_path, class: 'btn btn-success ' do
+              < Назад

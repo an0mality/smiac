@@ -1,0 +1,14 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: "localhost"
+  database: miac
+  port: 5432
+  username: 
+  password: 
+development:
+  <<: *default
+test: 
+  <<: *default
+production:
+  <<: *default

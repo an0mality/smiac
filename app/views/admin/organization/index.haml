@@ -1,0 +1,50 @@
+.container-fluid
+  .row
+    .col-md-1
+    .col-md-10
+      .row
+        .panel.panel-info
+          .panel-heading
+            Панель администратора > Организации
+
+          .panel-panel-body
+            .row
+              .col-md-12
+                .pull-right{style:'font-size:14px;'}
+                  = link_to "Добавить организацию", "#", {"data-target" => "#create_report", "data-toggle" => "collapse"}
+                #create_report.collapsible.collapse
+                  .well
+                    = render 'form_organization', data: Organization.new,  url: admin_organization_index_path
+
+
+            .row
+              / .col-md-1
+              .col-md-10.col-md-offset-1
+                %nav.nav-tabs
+                  - @orgs.distinct.each do |type|
+                    %h3=type.name
+                    -type.organizations.each do |o|
+                      .row{style: 'padding-top: 4px; border-bottom: 1px solid lightblue;'}
+                        .col-md-12
+                          =link_to admin_organization_path(o),  class: 'btn btn-sm btn-primary', title: 'Редактировать' do
+                            %i.fa.fa.fa-search
+                            
+                          =link_to admin_organization_path(o), method: :delete, data: {confirm:'Точно удалить?'}, class: 'btn btn-sm btn-warning', title: 'Удалить' do
+                            %i.fa.fa.fa-trash-o
+                            
+                        
+                          %span.name{style:'padding-left: 15px;'}=o.name
+
+                  / - Organization.where(type_org_id: type).order(:name).each do |organization|
+                  /   .row{style:"padding-left: 20px; font-size: 18px;"}
+                  /     .col-md-12
+                  /       .text-success= organization.name
+                  /       .text-info{style:"padding-left: 20px; font-size: 11px;"}=organization.full_name
+                  /       .pull-right
+                  /         =link_to admin_organization_path(organization),  class: 'btn btn-sm btn-primary' do
+                  /           %i.fa.fa.fa-search
+                  /           Редактировать
+                  /         =link_to admin_organization_path(organization), method: :delete, data: {confirm:'Точно удалить?'}, class: 'btn btn-sm btn-warning' do
+                  /           %i.fa.fa.fa-trash-o
+                  /           Удалить
+                  /   

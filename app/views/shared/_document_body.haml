@@ -1,0 +1,113 @@
+- if params[:document_stage_id].present?
+  - current_doc_stage = DocumentStage.find(params[:document_stage_id]).name
+- else
+  - current_doc_stage = DocumentStage.where(parent_id: params[:parent_id]).present? ? DocumentStage.where(parent_id: params[:parent_id]).order(:name).first.name : []
+
+- if params[:search].present?
+  %center
+    %u Результаты поиска
+.row
+  .col-md-6
+    %i
+      .path
+        -if current_doc_stage.present?
+          Документы > #{DocumentStage.find(params[:parent_id]).name} > #{current_doc_stage}
+        -else
+          Документы > #{DocumentStage.find(params[:parent_id]).name}
+  .col-md-6
+    .pull-right
+      %form.form-inline
+        .form-group
+          .input-group-sm{style:'font-size:13.5px;'}
+            
+
+            = link_to 'Показать все', documents_path(document_tab_stage_id:  params[:document_tab_stage_id], document_stage_id: params[:document_stage_id], parent_id: params[:parent_id],  view: 'all', search: params[:search]), class: (params[:view]=='all'  ? 'active_link' : '')
+            |
+            = link_to 'Показать по 12', documents_path(document_tab_stage_id:  params[:document_tab_stage_id],document_stage_id: params[:document_stage_id], parent_id: params[:parent_id], per_page: 12, search: params[:search]), class: ((params[:per_page]=='12' || params[:view].blank? && params[:per_page].blank?) ? 'active_link' : '')
+            |
+            = link_to 'Показать по 24', documents_path(document_tab_stage_id:  params[:document_tab_stage_id],document_stage_id: params[:document_stage_id], parent_id: params[:parent_id], per_page: 24, search: params[:search]), class: (params[:per_page]=='24' ? 'active_link' : '')
+
+
+            = form_tag(request.path, method: "post", class: "form-horizontal") do
+              = text_field_tag :search, params[:search], placeholder: "Поиск по разделу", class: "form-control"
+              = submit_tag 'Найти', class: 'btn btn-sm btn-primary'
+              = hidden_field_tag :parent_id, params[:parent_id]
+              = hidden_field_tag :document_stage_id, params[:document_stage_id]
+              = hidden_field_tag :document_tab_stage_id, params[:document_tab_stage_id]
+
+
+.row
+  .col-md-12
+    %ul.nav.nav-tabs
+      -@tab_menu.each do |tab|
+        %li{class: (tab.id.to_i == @document_tab_stage_id.to_i ? 'active' : '')}
+          - if request.path == documents_path
+            %a{:href => documents_path(document_tab_stage_id: tab.id, parent_id: params[:parent_id], document_stage_id: params[:document_stage_id])} #{tab.name}
+          - if request.path == admin_documents_path
+
+            %a{:href => admin_documents_path(document_tab_stage_id: tab.id, parent_id: params[:parent_id], document_stage_id: params[:document_stage_id])} #{tab.name}
+
+.row
+  .col-md-12
+    - if @documents.present?
+      %table.table.table-hover.table-condensed
+        - @documents.each do |doc|
+          %tr
+            %td
+              .row
+                .col-md-2{style:'font-size:13.5px;'}
+                  .pull-left
+                    %i.fa-fw.fa.fa-calendar
+                    = I18n. l doc.created_at, format: '%d/%m/%Y'
+
+                .col-md-1
+                  .pull-left
+                    - if request.path == documents_path
+                      -image = doc.filename.match('doc|docx|pdf|tif|xls|ppt|pptp|rtf|zip|jpg')
+                      - if image.present?
+                        -image_png = image.to_s + '.png'
+                        %a.tooltips{"data-original-title" => "#{doc.filename}", "data-placement" => "top", "data-toggle" => "tooltip", :href => document_path(doc), :title => "Скачать документ"}
+
+                          = image_tag(image_png, style: "width: 40px;")
+                      - else
+                        %a.tooltips{"data-original-title" => "#{doc.filename}", "data-placement" => "top", "data-toggle" => "tooltip", :href => document_path(doc), :title => "Скачать документ"}
+                          = image_tag('file.png', style: "width: 40px;")
+                    - elsif request.path ==  admin_documents_path
+                      -if current_user.admin || (can? :manage, Document)
+                        = link_to admin_document_path(doc), method: :delete, data: {confirm: 'Вы уверены, что хотите удалить документ?'}, class: 'btn btn-sm btn-danger' do
+                          %i.fa.fa.fa-trash-o
+
+                .col-md-6
+                  %h4
+                    %strong
+                      %i
+                        = link_to doc.filename, document_path(doc), title: 'Скачать документ'
+                .col-md-3
+                  .pull-right
+                    %form.form-inline
+                      .form-group
+                        .input-group-sm
+                          %a.tooltips{"data-original-title" => "#{doc.filename}", "data-placement" => "top", "data-toggle" => "tooltip", :href => document_path(doc), :title => "Скачать документ"}
+                            = image_tag('download_doc.png', style: "width: 40px;")
+                          %i.fa.fa.fa-signal{title: 'Просмотров'}
+                          .badge
+                            =doc.count_download
+
+      %center
+        = will_paginate @documents, :previous_label => t("<"), :next_label => t(">")
+      %br
+        %br
+
+    - elsif params[:search].present?
+      .text-info.text-center
+        %h3
+          По вашему запросу в данном разделе не найдено ни одного документа
+    - elsif @documents.blank? && params[:search].blank?
+      %br
+        %br
+      .text-info.text-center
+        %h3
+          В раздел не загружен ни один документ
+
+
+

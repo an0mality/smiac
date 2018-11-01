@@ -1,0 +1,207 @@
+-#= render 'shared/under_construction'
+
+/ === Content Part ===
+.container.content
+  .row
+    .col-md-6
+      %h2.title-v2 МИАЦ
+      %p Принимает активное участие в программе развития ЕГИСЗ.
+      %p
+        Единая государственная информационная система в сфере здравоохранения (ЕГИСЗ) представляет собой совокупность информационно-технологических и технических средств, обеспечивающих информационную поддержку методического и организационного обеспечения деятельности участников системы здравоохранения. Региональный фрагмент единой государственной информационной системы здравоохранения Калужской области является частью программы модернизации здравоохранения. Целью его создания является повышение качества услуг в сфере организации охраны здоровья граждан и обеспечение открытости системы здравоохранения в целом. Подробнее о ЕГИСЗ см. на сайте Министерства здравоохранения #{link_to 'в Библиотеке документов по внедрению ЕГИСЗ.', 'http://egisz.rosminzdrav.ru/'}
+      -#= link_to "Дополнительно", "#", class: "btn-u btn-brd btn-brd-hover"
+    .col-md-6
+      = image_tag("projects/mockup2.png", class: "img-responsive")
+  .row
+    -#.col-md-2
+    .col-md-12
+      %h3
+        Задачи, которые призваны решить региональный фрагмент ЕГИСЗ:
+      %ul
+        %li
+          объединить медицинские учреждения в единую корпоративную сеть;
+        %li персонифицировать учет оказания медицинской помощи и профилактических мероприятий;
+        %li организовать регистрацию и учет обслуживаемых граждан;
+        %li организовать ведение электронных амбулаторно-поликлинических карт пациентов;
+        %li организовать ведение электронных стационарных карт пациентов;
+        %li обеспечить взаимодействие с системами ведения классификаторов и справочников, технико-экономической и социальной информации, а также персонально идентифицируемой информацией регистров прикрепленного населения и медицинских работников лечебно-профилактических учреждений;
+        %li организовать формирование медико-статистических отчетов;
+        %li обеспечить предоставление информации об оказанных услугах для осуществления финансово-экономического учета и планирования;
+        %li организовать получение сводных аналитических данных о деятельности лечебно-профилактических учреждений;
+        %li организовать информационное взаимодействие медицинских организаций с внешними организациями, в том числе взаимодействие с реестром НСИ, а также обмен данными персонифицированного учета с заинтересованными организациями;
+        %li обеспечить формирование и сопровождение системы ведения нормативно-справочной информации НСИ;
+        %li организовать деятельность электронных регистратур и приемных отделений, учет оказанной медицинской помощи;
+        %li обеспечить ведение электронной медицинской карты;
+        %li обеспечить ведение и контроль листов ожидания;
+        %li обеспечить формирование отчетных форм;
+        %li организовать планирования медицинских назначений;
+        %li организовать учет выполнения назначений;
+        %li решить проблемы с очередями в поликлиниках и регистрационных кабинетах с внедрением системы электронной записи к врачу;
+        %li организовать передачу на федеральный уровень в соответствующий регистр информацию о медицинских работниках в режиме реального времени;
+        %li обеспечить возможность оперативного ввода актуализированных данных по типовым формам в режиме реального времени;
+
+-#.parallax-counter-v2.parallaxBg1{:style => "background-position: 50% 222px;"}
+  .container.content-sm
+    .text-center.margin-bottom-50
+      %h2.title-v2.title-center Отделы МИАЦ
+      %p.space-lg-hor
+        Наши отделы, участвующие в информатизации
+
+    .row.content-boxes-v4.content-boxes-v4-sm.margin-bottom-30
+      .col-md-4.md-margin-bottom-40
+        %i.pull-left.icon-directions
+        .content-boxes-in-v4
+          %h2 Отдел Эксплуатации "Регистр"
+          %p
+            Отдел существует с давних пор и заниается ведения Регистра
+
+          %a{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#collapseregistr", :role => "button"}  Показать /скрыть
+          #collapseregistr.collapse
+            .well
+              Авария на Чернобыльской АЭС в апреле 1986 года по масштабам последствий стала наиболее серьезной в истории гражданской атомной энергетики. Произошел самый большой неконтролируемый выброс радиоактивных веществ в окружающую среду, что привело к загрязнению территории общей площадью около 150 тысяч квадратных километров, на которой проживали 6 миллионов человек. В июне 1986 года было принято решение о создании государственного медико-дозиметрического  регистра лиц, подвергшихся воздействию радиации вследствие катастрофы на Чернобыльской АЭС. Программно-математическое обеспечение регистра, протоколы медицинских обследований и дозиметрический контроль зарегистрированных лиц был разработан обнинским Медицинским  радиологическим научным центром (МНРЦ РАМН), который впоследствии для данного регистра стал федеральным центром. В Калужской области в МИАЦ был создан отдел «Эксплуатации Регистра», который имеет статус регионального центра. В 2012 подписан специальный закон, регламентирующий дальнейшее функционирование в России созданного в Обнинске Национального радиационно-эпидемиологический регистра, в него добавлены новые категории граждан, пострадавших в других радиационных авариях.
+
+      .col-md-4.md-margin-bottom-40
+        %i.pull-left.icon-handbag
+        .content-boxes-in-v4
+          %h2 Экспертный отдел
+          %p Мы еще расскажем об этом
+          %a{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#collapseexpert", :role => "button"}  Показать /скрыть
+          #collapseexpert.collapse
+            .well
+              Чуть позже
+      .col-md-4
+        %i.pull-left.icon-chemistry
+        .content-boxes-in-v4
+          %h2 Отдел программирования
+          %p
+            Отдел программирования в МИАЦ существует с самого основания организации. С давних пор он занимается разработкой программного обеспечения для автоматизации бизнес-процессов в МИАЦ, а так же разработкой программного обеспечения помогающей в аналитической и статистической деятельности.
+          %a{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#collapseExample", :role => "button"}  Показать /скрыть
+          #collapseExample.collapse
+            .well
+              С 2013 года отдел программирования начал разработку проекта внутри-корпоративного портала в защищенной сети «MEDNET». Данный портал разрабатывается по сей день, с целью автоматизации бизнес-процессов разных проектов как внутри МИАЦ, так и для подведомственных организаций Министерства здравоохранения Калужской области.
+              %h4
+                Наша команда:
+              %ul
+                %li Селезнев Михаил - Руководитель отдела программирования
+                %li Прошакова Мария - программист
+                %li Трегубов Андрей - программист, поддержка  ИАС БАРС
+
+
+
+
+
+
+    %hr/
+    .row.content-boxes-v4.content-boxes-v4-sm.margin-bottom-30
+      .col-md-4.md-margin-bottom-40
+        %i.pull-left.icon-info.margin-right-10
+        .content-boxes-in-v4
+          %h2 Аналитический отдел
+          %p Мы еще расскажем об этом
+          %a{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#collapseanalytics", :role => "button"}  Показать /скрыть
+          #collapseanalytics.collapse
+            .well
+              Чуть позже
+      .col-md-4.md-margin-bottom-40
+        %i.pull-left.icon-social-youtube.margin-right-10
+        .content-boxes-in-v4
+          %h2 Отдел межведомственного взаимодействия
+          %p Мы еще расскажем об этом
+          %a{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#collapseui", :role => "button"}  Показать /скрыть
+          #collapseui.collapse
+            .well
+              Чуть позже
+      .col-md-4
+        %i.pull-left.icon-fire.margin-right-10
+        .content-boxes-in-v4
+          %h2 Отдел взаимодействия с региональными медицинскими сетями
+          %p Мы еще расскажем об этом
+          %a{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#collapseeth", :role => "button"}  Показать /скрыть
+          #collapseeth.collapse
+            .well
+              Чуть позже
+    %hr/
+    .row.content-boxes-v4.content-boxes-v4-sm
+
+      .col-md-4.md-margin-bottom-40
+        %i.pull-left.icon-rocket
+        .content-boxes-in-v4
+          %h2  Отдел сопровождения программы по дополнительному лекарственному обеспечению граждан
+          %p Мы еще расскажем об этом
+          %a{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#collapsedlo", :role => "button"}  Показать /скрыть
+          #collapsedlo.collapse
+            .well
+              Чуть позже
+      .col-md-4
+        %i.pull-left.icon-support
+        .content-boxes-in-v4
+          %h2 Отдел технического обеспечения
+          %p Мы еще расскажем об этом
+          %a{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#collapsetech", :role => "button"}  Показать /скрыть
+          #collapsetech.collapse
+            .well
+              Чуть позже
+/ === End Service Blocks ===
+/ === Parallax Counter ===
+-#.bg-grey
+-#  .container.content-sm
+-#    .text-center.margin-bottom-50
+-#      %h2.title-v2.title-center А также в которых мы активно принимаем участие
+-#      %p.space-lg-hor
+-#        If you are going to use a
+-#        = succeed "," do
+-#          %span.color-green passage of Lorem Ipsum
+-#        %span.color-green this the first
+-#        true generator on the Internet.
+-#    .row.news-v1
+-#      .col-md-4.md-margin-bottom-40
+-#        .news-v1-in.bg-color-white
+-#          %img.img-responsive{:alt => "", :src => "http://htmlstream.com/preview/unify-v1.7/assets/img/main/img12.jpg"}/
+-#          %h3.font-normal
+-#            %a{:href => "#"} Телемедецина
+-#          %p At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores [..]
+-#          %ul.list-inline.news-v1-info.no-margin-bottom
+-#            -#%li
+-#            -#  %span By
+-#            -#  %a{:href => "#"} Kathy Reyes
+-#            -#%li |
+-#            -#%li
+-#            -#  %i.fa.fa-clock-o
+-#            -#  July 02, 2014
+-#            -#%li.pull-right
+-#            -#  %a{:href => "#"}
+-#            -#    %i.fa.fa-comments-o
+-#            -#    14
+-#      .col-md-4.md-margin-bottom-40
+-#        .news-v1-in.bg-color-white
+-#          %img.img-responsive{:alt => "", :src => "http://htmlstream.com/preview/unify-v1.7/assets/img/main/img3.jpg"}/
+-#          %h3.font-normal
+-#            %a{:href => "#"} ДЛО
+-#          %p At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores [..]
+-#          %ul.list-inline.news-v1-info.no-margin-bottom
+-#      .col-md-4
+-#        .news-v1-in.bg-color-white
+-#          %img.img-responsive{:alt => "", :src => "http://htmlstream.com/preview/unify-v1.7/assets/img/main/img16.jpg"}/
+-#          %h3.font-normal
+-#            %a{:href => "#"} РМИС
+-#          %p At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores [..]
+-#          %ul.list-inline.news-v1-info.no-margin-bottom
+-#
+-#.parallax-counter-v2.parallaxBg1{:style => "background-position: 50% 222px;"}
+-#  .container
+-#    %ul.row.list-row
+-#      %li.col-md-3.col-sm-6.col-xs-12.md-margin-bottom-30
+-#        .counters.rounded
+-#          %span.counter 5
+-#          %h4.font-normal Web Developers
+-#      %li.col-md-3.col-sm-6.col-xs-12.md-margin-bottom-30
+-#        .counters.rounded
+-#          %span.counter 2
+-#          %h4.font-normal Designers
+-#      %li.col-md-3.col-sm-6.col-xs-12.sm-margin-bottom-30
+-#        .counters.rounded
+-#          %span.counter 37904
+-#          %h4.font-normal Open Contests
+-#      %li.col-md-3.col-sm-6.col-xs-12
+-#        .counters.rounded
+-#          %span.counter 50892
+-#          %h4.font-normal Happy Customors

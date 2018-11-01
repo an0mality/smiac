@@ -1,0 +1,66 @@
+
+.container-fluid
+  .row
+    .col-md-1
+    .col-md-10
+      .row
+        %p
+          .pull-right
+            = link_to new_admin_user_path, class: 'btn btn-success' do
+              Добавление пользователя
+        %h4
+          Пользователей:
+          =@users.count
+
+        %table.table.table-bordered.table-condensed.table-hover
+          %thead
+            %center
+              %h4 Список пользователей
+            %tr
+              %th
+                №
+              %th
+                ФИО
+              %th
+                Login
+              %th
+                email
+              %th
+                Администратор
+              %th
+                Модератор
+              %th
+                Заблокированный
+              %th
+                Организация
+              %th
+                Действия
+          %tbody
+            - @users.each do |user|
+              %tr{class: user.blocks ? 'danger' : ''}
+                %td
+                  = @users.find_index(user)+1
+                %td
+                  = best_in_place user, :fio, :as => :input, url: edit_admin_user_path(user.id)
+                %td
+                  = best_in_place user, :username, :as => :input, url: edit_admin_user_path(user.id)
+                %td
+
+                  = best_in_place user, :email, :as => :input, url: edit_admin_user_path(user.id)
+                %td
+                  = best_in_place user, :admin, as: :checkbox, url: edit_admin_user_path(user.id), collection: {false: "Нет", true: "Да"}
+                %td
+                  = best_in_place user, :moderator, as: :checkbox, url: edit_admin_user_path(user.id), collection: {false: "Нет", true: "Да"}
+                %td
+                  = best_in_place user, :blocks, as: :checkbox, url: edit_admin_user_path(user.id), collection: {false: "Нет", true: "Да"}
+                %td
+                  = best_in_place user, :organization, :as => :input, url: edit_admin_user_path(user.id)
+                %td
+                  = link_to reset_password_admin_user_path(user), method: :post, class: 'btn btn-info' do
+                    %i.fa.fa-check-square-o
+                    Сбросить пароль
+
+:javascript
+  $(document).ready(function(){
+    $(".best_in_place").best_in_place();
+  });

@@ -1,0 +1,20 @@
+= simple_form_for user, url: url, method: met  do |f|
+  .modal-body
+    =label :fio,'ФИО:'
+    =f.text_field :fio, class: 'form-control'
+    =label :email,'Email:'
+    = f.text_field :email, :class => "form-control"
+    =label :username,'Login:'
+    = f.text_field :username, class: 'form-control'
+    -#=label :password,'password:'
+    -#= f.text_field :password, :class => "form-control"
+    =label :organization, 'Организация:'
+    .text-success *Введите маленькими буквами свою организацию для поиска её в базе
+    =f.autocomplete_field :organization,autocomplete_organization_name_admin_users_path, class: 'form-control', placeholder: 'Название вашей организации'
+
+    -#= f.select :organization, options_from_collection_for_select(Organization.order('name'), :name, :name),{include_blank: 'Выберите организацию'}, { class: 'form-control'}
+  .modal-footer
+    = f.submit slovo, class: 'btn btn-primary btn-lg btn-block'
+  %p
+    = link_to admin_users_path, class: 'btn btn-success ' do
+      < Назад

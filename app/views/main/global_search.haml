@@ -1,0 +1,185 @@
+%center
+  %h4 По запросу "#{params[:search]}":
+-if @articles_gl.present? || @orgs.present? || @departs.present? || @docs.present? || @employees.present? || @fras.present? || @videos.present?
+  .row
+    .col-md-10.col-md-offset-1
+      - if @articles_gl.present?
+        -#=render 'form_global_search'
+        %table.table.table-hover.table-condensed
+          .my_panel
+            .my_panel-heading
+              =link_to 'Новости', articles_path
+            .panel-body
+              - @articles_gl.each do |a|
+                .col-md-10
+                  %p
+                  .btn-group
+                    =link_to article_path(a), class: 'btn btn-sm btn-primary', "target"=>"blank", title: 'Посмотреть новость' do
+                      %i.fa.fa-search
+                  %i.fa.fa-calendar
+                  = I18n. l a.created_at, format: '%d/%m/%Y'
+                  \.
+                  #{a.title.html_safe}
+                  \/
+                  = truncate( raw( sanitize(a.body.html_safe, :tags => %w(), :attributes => %w(id class style) ) ), :length => 200, :omission => "...")
+      -if @fras.present?
+        .table.table-hover.table-condensed
+          .my_panel
+            .my_panel-heading
+              =link_to 'Часто задаваемые вопросы РМИС', rmi_index_path
+            .panel-body
+              - @fras.each do |f|
+                %h3{:class => 'question', :data_id => '#answer'+"#{f.id}"}
+                  %i.fa.fa-question-circle
+                    #{f.question.html_safe}
+                    %span.show_answer{:data_id => '#answer'+"#{f.id}"} показать ответ
+                    %span.hide_answer{style: 'display: none;', :data_id => '#answer'+"#{f.id}"} скрыть ответ
+                %div{:class =>'answer',:id => 'answer'+"#{f.id}", style:'border: ghostwhite solid 0.5px; padding: 15px; border-radius: 20px; background-color: ghostwhite;' }
+                  #{f.description.html_safe}
+      -if @orgs.present?
+        %table.table.table-hover.table-condensed
+          .my_panel
+            .my_panel-heading
+              =link_to 'Медицинские организации Калужской области', info_organization_index_path(type_organization: 3)
+            .panel-body
+              - @orgs.each do |o|
+                .col-md-10
+                  %p
+                  .btn-group
+                    = link_to info_organization_index_path(type_organization: o.type_organization_id, id: o.id), class: 'btn btn-sm btn-primary', "target"=>"blank", title: 'Подробнее' do
+                      %i.fa.fa-search
+                  =TypeOrganization.find(o.type_organization_id).name
+                  \/
+                  #{o.name}
+      -if @departs.present?
+        %table.table.table-hover.table-condensed
+          .my_panel
+            .my_panel-heading
+              =link_to 'Отделы',departments_about_index_path
+            .panel-body
+              - @departs.each do |d|
+                .col-md-10
+                  %p
+                  .btn-group
+                    = link_to departments_about_index_path(department_id: d.id), class: 'btn btn-sm btn-primary', "target"=>"blank", title: 'Подробнее' do
+                      %i.fa.fa-search
+                  #{d.name}
+      -if @employees.present?
+        %table.table.table-hover.table-condensed
+          .my_panel
+            .my_panel-heading
+              =link_to 'Телефонный справочник', phones_about_index_path
+            .panel-body
+              - @employees.each do |e|
+                .col-md-10
+                  %p
+                  .btn-group
+                    =link_to phones_about_index_path, class: 'btn btn-sm btn-primary', "target"=>"blank", title: 'Подробнее'  do
+                      %i.fa.fa-search
+                  = Department.find(e.department_id).name
+                  \/
+                  #{e.fio}
+                  \/
+                  #{e.phone_number}
+      -if @videos.present?
+        %table.table.table-hover.table-condensed
+          .my_panel
+            .my_panel-heading
+              =link_to 'Видеоматериалы', show_video_list_classroom_index_path(id: 27)
+            .panel-body
+              - @videos.each do |v|
+                .col-md-10
+                  %p
+                  .btn-group
+                    = link_to show_video_list_classroom_index_path(id: v.video_playlist_id), class: 'btn btn-sm btn-primary', "target"=>"blank", title: 'Подробнее' do
+                      %i.fa.fa-search
+
+                    = link_to  "https://www.youtube.com/embed/#{v.video_id}", target: "blank", class: "btn btn-sm btn-primary", title: 'Смотреть' do
+                      %i.fa.fa-youtube-play
+                  %i.fa.fa-calendar
+                  = I18n. l v.created_at, format: '%d/%m/%Y'
+                  \.
+                  = VideoPlaylist.find(v.video_playlist_id).title
+                  \/
+                  #{v.title}
+                  \/
+                  %p
+                    %blockquote{style:"font: 10pt sans-serif;"}
+                      = truncate( raw( sanitize(v.description.html_safe, :tags => %w(), :attributes => %w(id class style) ) ), :length => 200, :omission => "...")
+      -if @docs.present?
+        %table.table.table-hover.table-condensed
+          .my_panel
+            .my_panel-heading
+              =link_to 'Документы', documents_path(parent_id: 1)
+            .panel-body
+              - @docs.each do |doc|
+                .col-md-10
+                  %p
+                  = link_to documents_path(document_stage_id: doc.document_stage_id ,parent_id: DocumentStage.find(doc.document_stage_id).parent_id), class: 'btn btn-sm btn-primary', "target"=>"blank", title: 'Подробнее' do
+                    %i.fa.fa-search
+                  %a.tooltips{"data-original-title" => "#{doc.filename}", "data-placement" => "top", "data-toggle" => "tooltip", :href => document_path(doc), :title => "Скачать документ", :target => :blank}
+                    = image_tag('download_doc.png', style: "width: 40px;")
+                  %i.fa.fa-calendar
+                  = I18n. l doc.created_at, format: '%d/%m/%Y'
+                  \.
+                  =DocumentStage.find(doc.document_stage_id).name
+                  \/
+                  #{doc.filename}
+-else
+  %center
+    %h4 не найден ни один документ
+
+
+
+
+:javascript
+  $(document).ready(function(){
+    //document.getElementsByClassName('answer').hide();
+    $('.answer').hide();
+    $('.show_answer').on('click', function(){
+        //$('.answer').hide();
+        var data_id = $(this).attr('data_id');
+        //alert(data_id);
+        //$('.question').css({"border": "", "border-radius": ""});
+        $(this).hide();
+        $(this).next('.hide_answer').show();
+        $(data_id).css('display','block');
+        $(this).closest('.question').css({"border": "cornflowerblue solid 5px", "border-radius": "10px", "padding": "10px"});
+
+
+    });
+
+    $('.hide_answer').on('click', function(){
+        var data_id = $(this).attr('data_id');
+        $(this).prev('.show_answer').show();
+        $(this).hide();
+        $(this).closest('.question').css({"border": ""});
+        $(data_id).css('display','none');
+    });
+
+    $('.theme').hide();
+    //$('.themes').removeClass('btn-primary');
+
+    $('.themes').on('click', function(){
+        $('.answer').hide();
+        $('.question').css({"border": "", "border-radius": "", "padding": ""});
+
+        //alert('click');
+        $('.theme').hide();
+        $('.themes').removeClass('btn-primary');
+        var theme_data_id = $(this).attr('theme_data_id');
+        //alert(theme_data_id);
+        var element = document.getElementById(theme_data_id)
+        $(element).toggle();
+
+        //$(this).removeClass('btn-default');
+        $(this).addClass('btn-primary');
+
+
+    });
+
+
+
+
+
+  });

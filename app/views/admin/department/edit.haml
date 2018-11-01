@@ -1,0 +1,14 @@
+.container-fluid
+  .row
+    .col-md-2
+    .col-md-8
+      .row
+        .panel.panel-info
+          .panel-heading
+            Панель администратора > О нас > Отделы > Редактирование
+
+          .panel-body
+            .text-info{style:"font-size: 15px;"}
+            = render 'form', department: @department, url: admin_department_path(@department), met: 'put', slovo:"Изменить"
+            = link_to admin_department_index_path, class: 'btn btn-success ' do
+              < Назад
